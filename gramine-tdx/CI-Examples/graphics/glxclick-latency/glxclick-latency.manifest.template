@@ -1,0 +1,48 @@
+# Minimal GLX workload for measuring the current shared-memory input path.
+
+libos.entrypoint = "/glxclick-latency"
+fs.start_dir = "/"
+
+loader.log_level = "error"
+loader.insecure__use_host_env = true
+loader.insecure__use_cmdline_argv = true
+sys.stack.size = "8M"
+sys.experimental__shared_input_ring = true
+
+loader.env.LD_LIBRARY_PATH = "/opt/mesa/lib/x86_64-linux-gnu:/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+loader.env.LD_PRELOAD = "/egl_redirect.so"
+loader.env.DISPLAY = "2:0"
+loader.env.IVSHMEM_GRAMINE_VM = "1"
+loader.env.HOST_SDL_WINDOW = "1"
+loader.env.EGL_GRAMINE = "1"
+loader.env.EGL_SHARED_INPUT = "1"
+loader.env.EGL_DISCRETE = "0"
+loader.env.GALLIUM_THREAD = "0"
+loader.env.GLIBC_TUNABLES = "glibc.pthread.rseq=0"
+loader.env.__GL_SYNC_TO_VBLANK = "0"
+loader.env.vblank_mode = "0"
+loader.env.GBM_BACKEND = "dri"
+loader.env.EGL_SYSCALL_LOG = "0"
+loader.env.EGL_IOCTL_LOG = "0"
+loader.env.EGL_DUMP_PNG = "0"
+loader.env.MESA_LOG = "0"
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr", type = "chroot", uri = "file:/usr" },
+  { path = "/etc/ld.so.cache", uri = "file:/etc/ld.so.cache" },
+  { path = "/tmp", type = "tmpfs" },
+  { path = "/glxclick-latency", uri = "file:{{ integration_dir }}/glxclick-latency" },
+  { path = "/egl_redirect.so", uri = "file:{{ integration_dir }}/../../../../egl-redirect/egl_redirect.so" },
+  { path = "/opt/mesa", type = "chroot", uri = "file:/opt/mesa" },
+  { path = "/usr/lib/libGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGL.so.1" },
+  { path = "/usr/lib/libEGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libEGL.so.1" },
+  { path = "/usr/lib/libgbm.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgbm.so.1" },
+  { path = "/usr/lib/libGLESv2.so.2", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGLESv2.so.2" },
+  { path = "/usr/lib/libgallium-25.2.0-devel.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgallium-25.2.0-devel.so" },
+  { path = "/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so" },
+  { path = "/sys", type = "chroot", uri = "file:/sys" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}

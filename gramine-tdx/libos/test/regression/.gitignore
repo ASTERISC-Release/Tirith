@@ -1,0 +1,8 @@
+/nonexisting_testfile
+/testfile
+/trusted_testfile
+
+/tmp/*
+!/tmp/.gitkeep
+/tmp_enc/*
+!/tmp_enc/.gitkeep

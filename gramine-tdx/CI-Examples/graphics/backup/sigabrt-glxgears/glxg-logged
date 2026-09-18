@@ -1,0 +1,3864 @@
+/root/gramine-tdx-testing/custom_qemu/qemu/build/qemu-system-x86_64 -cpu host,host-phys-bits,-kvm-steal-time,pmu=off,+tsc-deadline,+invtsc -m 16G -smp 1 -enable-kvm -vga none -display none -no-reboot -monitor none -object memory-backend-memfd,id=mem,size=16G -M memory-backend=mem,hpet=off -object memory-backend-file,size=64M,share=on,mem-path=/dev/shm/sharedgl_shared_memory,id=sharedgl_shared_memory -device ivshmem-plain,memdev=sharedgl_shared_memory,bus=pcie.0,addr=0x6 -M q35,kernel_irqchip=split -device virtio-serial,iommu_platform=off,romfile= -chardev stdio,id=virtioconsole0 -device virtconsole,chardev=virtioconsole0 -chardev socket,path=/tmp/gramine_vhostfs_10,id=vhostfs -device vhost-user-fs-pci,iommu_platform=off,queue-size=1024,chardev=vhostfs,tag=graminefs -device vhost-vsock-pci,iommu_platform=off,guest-cid=10,id=vsockdev -kernel /root/gramine-tdx-testing/gramine-tdx/built-debug/lib/x86_64-linux-gnu/gramine/vm/pal -device loader,file=/root/gramine-tdx-testing/gramine-tdx/built-debug/lib/x86_64-linux-gnu/gramine/vm/bios -fw_cfg name=opt/gramine/pwd,string=/root/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/sigabrt-glxgears -fw_cfg name=opt/gramine/args,string=-gramine-args init "egl"  -gramine-args-end -fw_cfg name=opt/gramine/envs,string=-gramine-envs "GRAMINE_MANIFEST=egl.manifest" "PWD=/root/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/sigabrt-glxgears" "QEMU_AUDIO_DRV=none" "container=podman" "HOME=/root" "LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:" "LESSCLOSE=/usr/bin/lesspipe %s %s" "PYTHONPATH=/root/gramine-tdx-testing/gramine-tdx/built-debug/lib/python3.12/site-packages/" "TERM=xterm" "LESSOPEN=| /usr/bin/lesspipe %s" "DISPLAY=:1" "SHLVL=1" "XDG_RUNTIME_DIR=/run/user/1000" "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/gramine-tdx-testing/gramine-tdx/built-debug/bin:/usr/lib/qemu/:/usr/libexec/" "DEBIAN_FRONTEND=noninteractive" "OLDPWD=/root/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics" "_=/usr/bin/python3" "LC_CTYPE=C.UTF-8"  -gramine-envs-end -fw_cfg name=opt/gramine/unixtime_s,string=1767220455
+activated_ptr: 0x7f46d7fff000; Size: 17179869184; FD: 12; offset=0; file: /memfd:memory-backend-memfd (deleted)
+Low mapping..
+high mapping..
+Initializing VIRTIO device 00:03.0 vendor_id=1af4 device_id=105a
+pci_bar_malloc: bdf=00:03.0 BAR4 size=16384
+Initializing VIRTIO device 00:04.0 vendor_id=1af4 device_id=1053
+pci_bar_malloc: bdf=00:04.0 BAR4 size=16384
+Initializing VIRTIO device 00:06.0 vendor_id=1af4 device_id=1110
+pci_dev_init: device_id=1110 skipping capabilities list check
+64-bit BAR for ivshmem device
+virtio_ivshmem_init: bdf=00:06.0 BAR2 size from mask=4000000
+virtio_ivshmem_init: allocated 67108864 bytes for ivshmem BAR at 0xc4000000
+64-bit BAR for ivshmem device
+c4000000 & 0 
+
+Enabling memory space for ivshmem device
+[P1:T1:] error: Mounting file:/sys may expose unsanitized, unsafe files to unsuspecting application. Gramine will continue application execution, but this configuration is not recommended for use in production!
+[P1:T1:] error: Mounting file:/sys/dev may expose unsanitized, unsafe files to unsuspecting application. Gramine will continue application execution, but this configuration is not recommended for use in production!
+[P1:T1:] error: Mounting file:/sys/devices may expose unsanitized, unsafe files to unsuspecting application. Gramine will continue application execution, but this configuration is not recommended for use in production!
+[P1:T1:] error: Mounting file:/sys/bus/pci may expose unsanitized, unsafe files to unsuspecting application. Gramine will continue application execution, but this configuration is not recommended for use in production!
+[P1:T1:] Opening pseudofs node: tty (type=4)
+[P1:T1:] Opening pseudofs node: tty (type=4)
+[SG] +++++++++++++++
+SETUP_DATA() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+Data region addr: 0x186da2000; Host Base address: 0x7f46d7fff000
+
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+SETUP_DATA() is completed
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri/renderD128
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 105
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[*] DATAREGION: 0x186da2000; DATASIZE: 1073741824; ADDR-P1: 0x186da2000
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: renderD128 (type=4)
+[P1:T1:glxg] -------------------------------------
+
+[P1:T1:glxg]  We did it! 
+
+[SG] +++++++++++++++
+[P1:T1:glxg] -------------------------------------
+
+ioctl(105, 3225445376, 0x1c7428bd0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(105, 3225445376, 0x1c7428bd0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(105, 3225445376, 0x1793a1650) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(105, 3225445376, 0x1793a1650) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 106
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 107
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(105, 3225445376, 0x1793a5280) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(105, 3225445376, 0x1793a5280) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+ATTENTION: default value of option vblank_mode overridden by environment.
+[SG] +++++++++++++++
+fcntl() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() returned: 108
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 109
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 110
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x1793a7c10) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x1793a7c10) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 111
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 112
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x1793a7b90) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x1793a7b90) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 113
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 112
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 114
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/revision
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 115
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 116
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 117
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 118
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 119
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 120
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/revision
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 121
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 122
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 123
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 124
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 125
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x179390a60) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3225445376, 0x179390a60) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299718, 0x1c946e080) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299718, 0x1c946e080) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e060) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e040) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299769, 0x1c946e040) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 2148557923, 0x1c946e130) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222824052, 0x1c946e130) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299739, 0x1c946e120) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299746, 0x1c946e130) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 1074291721, 0x1c946e110) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299718, 0x1c946e080) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299718, 0x1c946e080) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(108, 3222299718, 0x1c946e080) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: meminfo (type=3)
+[SG] +++++++++++++++
+fcntl() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() returned: 126
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946e160) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946e160) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946e140) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946e140) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824052, 0x1c946e1b0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e030) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e024) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e030) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x186da2000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946dff0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946dfe4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e0a0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x186fa3000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() returned: 127
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e550) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e544) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e3e0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e3d4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e600) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x186fe4000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946e6d0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223872707, 0x1c946e6e0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775552, 0x1c946e6d8) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299718, 0x1c946e700) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(127, 3222299660, 0x1c946e6e0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299718, 0x1c946e450) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946e4b0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824052, 0x1c946e4c0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /proc/sys/dev/i915/perf_stream_paranoid
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 128
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 129
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 144
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/gt_min_freq_mhz
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 130
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/gt_max_freq_mhz
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 131
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074291832, 0x1c946e590) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 132
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 14104
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9a0ec3ea-1d61-413e-8b9c-169cdec1f9b3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 133
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/06aea283-f183-4e96-85a5-3bb7193f06c7/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 134
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6ad0dee9-17bf-4b54-8b70-e30afcc8710b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 135
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/82f69b49-772a-4169-bf9a-b1ef08e0823b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 136
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ed973589-e13c-4115-a2b1-08bc443a4e8d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 137
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/09c0f842-3711-48f5-bf3e-74c1caa9f791/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 138
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b24b7052-70a1-4ef7-b61d-7ee4d7e159ab/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 139
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ca3c5e8c-b83a-474f-85fa-af7572a1ce27/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 140
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d0d0e9cc-494c-4b01-8a43-683aae5beaff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 141
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/304d9439-4bdd-48a9-a82e-15b3533afaf4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 142
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6f983509-03f1-463a-be88-3e4a40de40b4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 143
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0eb11775-ad71-44d4-ad2c-c2fa6431b144/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 144
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/55830ebd-062b-40e8-8d5c-e921429957ff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 145
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/de587fdf-1740-4816-a5c0-08c1cb6b43eb/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 146
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/418f87f0-b6d8-4684-883e-4f10a79c5070/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 147
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1e91d8d9-ced4-4240-bf9e-fdd7d015c058/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 148
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/443c32c7-e5e4-43da-b4f2-77efe45a60ed/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 149
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9701aca8-76a6-49ee-96c9-ff983f24d29e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 150
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f725009a-c5e7-4418-9adf-ddb70cb2edde/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 151
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b5333a47-add0-46a5-82d9-e62dcee14e81/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 152
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/96067625-3663-4f9a-8b26-74e47ab1aff4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 153
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/4256db1d-9083-4497-9000-59bbcf9eee72/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 154
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7bcdd766-98a5-461a-ac8e-d8c648958364/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 155
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/856f213d-954d-4b0a-be6c-307b41d39b18/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 156
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d86c1224-3af7-4df1-a44d-e4522f22b2ae/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 157
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/25a2f80d-147e-4363-a0cb-53584b7a837d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 158
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d059b804-fc25-4cbc-9682-ebc806a0d423/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 159
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/423732fb-f20a-4549-b632-53ac587668d9/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 160
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cf34a431-3cc9-4b70-a84e-0d31a71170f0/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 161
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/947b168e-df39-4e92-a622-0884c81221b3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 162
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cab52f96-c6bf-48ca-a34e-17e52cadc8a6/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 163
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3628b2de-d9f9-4db2-a74f-32a314e591c5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 164
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/522743d7-4e01-461a-8600-7904e8ddc80c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 165
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/5228137b-8e8d-4d67-b195-d5f64a88f5f0/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 166
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/496219cc-316b-4945-9fc4-180e60331262/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 167
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a1963e82-2bad-44e2-9bb1-ee18657c09cd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 168
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fe2d673e-8b2e-47d0-b9db-2c50e10ee53e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 169
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3e220edc-390e-4964-9e57-4d45f3e01de8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 170
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1b49d31f-4d7c-4dd7-ad31-030ccb59649e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 171
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/446192f5-9062-4f1e-a99e-1be87cdcd0b8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 172
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/08bee982-b34c-49c1-bf0c-93c1949ffbe7/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 173
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/724a5073-2463-4f7f-aecb-7cdd90c831e1/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 174
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3b293ce5-af38-4ae2-96f4-a542d3c68d5e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 175
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/03090380-689d-481a-ace2-9725ea0c10d2/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 176
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1c957158-09ff-4a89-aa5b-3c1b4e46f9ba/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 177
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/03eb9c9b-72ee-4c7b-930b-6211dbb60503/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 178
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6b5736f5-a627-4cb6-9078-1c05137bc460/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 179
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/89aea44f-ffa6-43cc-9a9c-103b4930e103/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 180
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/bae9e67e-4b5c-4fb9-b21d-21a6966bed46/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 181
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/25ca1237-2ed3-447a-9767-1a85da89daef/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 182
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7f4b6bdf-4a28-4e6b-a67b-c9a0d320ddb8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 183
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6ee28b50-5390-4655-af96-9d99569aee82/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 184
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f5b7256f-9bf6-4c95-94c1-4044cfad0ea6/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 185
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/be7c864e-0538-420d-916d-ce3aed7742ba/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 186
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7675136e-a91e-4bf8-b206-32591b878339/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 187
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1625df84-2f24-4aed-9ced-e652184c9949/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 188
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/86b9199d-8a44-4694-bbde-6fd35bada236/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 189
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/78925a28-3e52-4d74-b03b-cb27c6a4401a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 190
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/045ee54e-4e02-4877-adb1-5bd14ba49100/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 191
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fa292653-8b18-448b-b57e-8e8ff92fac11/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 192
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f7fdd159-e273-47ab-99bc-f4fc410c6053/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 193
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/db4a27f8-40a0-4cb5-aa3a-5368add92cd5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 194
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/39a43efe-ee39-4fa2-88c4-3dfc34a74f4f/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 195
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0e9b064c-9fa7-4e85-8aaa-cc871010117d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 196
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b9d8323a-7bb4-41b5-b99b-43ed99e23590/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 197
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/90691d58-782d-459c-a242-f6e515fe9567/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 198
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e19c5430-c632-43eb-b27f-eeb3d405bfd8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 199
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c76b6b40-9d7f-48f6-b6da-595252c884f4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 200
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/da34c79f-d1c6-4d15-b848-2085528bb86b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 201
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c3586bbc-f20b-4ffc-bd62-21ea68c161f4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 202
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c7e6721e-51f9-40af-ba8b-0520a1082855/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 203
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/32565d07-8ac7-41c3-89a3-66d0c1100616/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 204
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/edae72d3-bb06-47af-87b4-7585274c6076/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 205
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1cacf022-b4d4-401c-abec-acc0a3353adc/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 206
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f15b97f6-eb1b-43a8-839c-7bd956c143c4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 207
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e3bef1e9-f563-4927-9ce8-1be6e151448c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 208
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/64aeba75-9dbe-4231-81f6-8c991b84c070/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 209
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/dbb009c2-98ad-4af0-905a-e7808ac5424c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 210
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/27c2ef51-6689-4ffc-acaa-3f46a8e834cf/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 211
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ae5589a9-7e09-4343-a611-3161977315d5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 212
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ec3032cb-df12-445c-9eb2-6b1031d2dc86/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 213
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/94219d74-6a23-4b93-bf62-88c9ad4ed4bd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 214
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/931bb082-6f87-450e-8910-fd6a4ab206f7/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 215
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/417618f2-7a87-4745-bccd-6ba14d17bfa4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 216
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b6defb71-0fe8-400e-ae27-565ce9067082/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 217
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f3ca645b-a2b3-496b-bf6d-f8f26b1faa86/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 218
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e37de2da-c16f-4b2a-82bc-e1062fabfa2a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 219
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e0810ece-3bb5-4786-871b-b504faa00ba7/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 220
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/13017c9d-9d3a-41d1-8f9c-2eafdcbefab4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 221
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f6e20d5b-52be-4035-85c2-818a690bf601/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 222
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e8a60701-f694-496d-95be-34cc80796a46/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 223
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9603d88f-e5bf-47b4-85fd-fbbb68f42632/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 224
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c6b40da2-4783-45d7-8252-9a4f1f75faf4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 225
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d98e7947-ecee-46a9-b3ac-619d13d32b1a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 226
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/8982721e-16cb-42ec-92dd-eb049ae7a503/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 227
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c0bdc35b-af55-4ac9-8078-f22578201756/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 228
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/65e4ac2a-db8f-4918-bdd6-ac4d85de160e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 229
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/92371114-aa03-46d8-ab34-6e843fc92123/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 230
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d5cdafcf-483d-40f7-8dc9-feca73e94246/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 231
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/33ceab81-26bc-49f3-a124-5dbb2d592a87/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 232
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/30499dfb-3977-4808-a34c-93e7b50e0454/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 233
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f4399df4-e808-4a0a-85ff-0c66f9c9e8a4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 234
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/682c3520-dffc-4a76-8e17-1d9effc01a1a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 235
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0d368afb-b8fd-425d-a704-9a45eaaaed3d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 236
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b749495f-4fc4-4e54-965e-38990758473b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 237
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fde32e67-1a87-4946-bf96-c1ff68105749/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 238
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fbed5532-2b4f-4194-b856-0404c387b2e4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 239
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2455c20b-95bb-4e9f-8db2-597ba9447025/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 240
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3663ed58-377d-40c3-9af0-913cbc5d954b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 241
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/89a4a65b-cbfa-4c75-99fb-e5d7f0def495/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 242
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e1a408d6-aece-4bde-8bbd-1c7fbfff02cf/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 243
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/68ac1770-b062-48cd-94f4-44c6ae16867a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 244
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d9d0c398-6429-4ba8-bc08-6e8556a5880f/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 245
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2c2ecec8-7f33-475c-9ca4-a7e89f949f58/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 246
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/580d5311-4e9d-4210-b419-37259ffcd3f2/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 247
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f47e74cf-7966-43ea-bbac-46f9a0d1dc1f/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 248
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3dd49211-aa69-4711-87c2-97289ff9cfff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 249
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e953dbdb-3451-4912-80ae-241ecc56a59e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 250
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/00882747-d1dd-4ba5-9b72-96df25dad7bd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 251
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6ae2c19e-672c-4ad6-9d59-0a391af1af4f/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 252
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/bf950c5b-7250-47f4-aa59-d97b22db02ff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 253
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/79252877-1dcd-4700-b4bd-58bce74b796d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 254
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/31ad28aa-7425-4bb4-b1a3-423821d98d84/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 255
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1fcdcf0a-54da-4397-8832-c884d8d0b3ff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 256
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0c6d24a9-2489-4fcd-a9f6-d44380417dee/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 257
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d9edd254-60e8-4ce0-82b1-7b3de3bc79a6/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 258
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/44d73f02-f843-4717-a3d5-3d1dfbd3f106/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 259
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cea536f3-f7ef-449c-91fe-42c721e54b52/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 260
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/bba76095-18aa-447d-9a79-00461a06f233/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 261
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/080da0b6-29a4-416b-b20f-ece0e2527f60/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 262
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f5448b6d-cb2a-4aad-804e-b1a285299582/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 263
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/98c25532-687f-489a-b070-667edd3c41f9/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 264
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d91bf24f-08af-4d1d-b957-c2293923c9a4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 265
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2adf2c05-e151-4fa7-9e77-2331bd94235e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 266
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a5e1e738-1338-4d76-a6a7-5517111cc852/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 267
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d09cedef-e3e3-41b5-8ce8-ddc3933339ca/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 268
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/26cb7ee1-a26d-410a-9283-e07d6ced5fce/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 269
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/703a9693-1444-4e7c-a235-1c4d6ee01943/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 270
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/78a1b79a-a5fd-4fa0-b33d-2ec51404e3b9/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 271
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/4491913e-99ed-4420-9575-75ab7a82c45d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 272
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e5a95c15-d54f-4d4f-bbe2-533240392df3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 273
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/8697d9f7-3085-4ae7-b88d-e77697972732/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 274
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cf27081a-d750-4c9d-8a19-154f976992ee/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 275
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7f59bef3-f0f1-4856-b4f3-e64fa9913956/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 276
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/4fe2fe09-1ef2-45ff-87f5-e789f8405713/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 277
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/11e92a4a-d605-499c-9159-e79797c230de/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 278
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/eab0942c-5181-4caf-aeec-44d9a0b69ada/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 279
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/4c975484-c2f5-4f29-b8fa-8ec1068de77a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 280
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3b94a07f-e4d8-4cf2-969e-ea19bb253a8c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 281
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/86cf3d13-947b-4f7f-9685-1ff59ec342dd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 282
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/772a2c24-0a03-480e-baca-72f2f55a5422/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 283
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2bc8b90d-997c-4d62-b101-fe1aa74036e5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 284
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b3c2bff1-e203-4c90-8719-66546c370005/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 285
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ee0cc3d0-9ac8-4608-aaca-b37fd9d18238/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 286
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/5e6f4959-c37c-4be0-bb4e-2f1c1aef2bb3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 287
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7e86b43f-715e-419a-83eb-e8777fd7c77a/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 288
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/5c97330a-b407-4ef8-908f-7fdeec216f81/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 289
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ec18cd0b-7caa-48d0-9a16-418ecbe1096e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 290
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/4286bd8f-f9db-45e5-aa37-51dd7067f751/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 291
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e4597eb9-ffa4-4da5-a180-5e12299f22cc/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 292
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1b0ce68b-c301-4d05-8659-85fad0825057/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 293
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/881454da-d271-41ba-9dfb-0cc354fb5aea/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 294
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fbc7362e-4d05-451d-833e-f0ce5e7ad8e3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 295
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d866e2a8-310e-4691-9edc-f7263b8d5c07/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 296
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/99e44f76-928f-4835-866f-663e25c69f66/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 297
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1fb36f5f-04a3-412f-a6ca-80233bf408a0/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 298
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ac90f98d-14a6-4dcc-b5d7-31ee157bb6e2/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 299
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/49dc9023-be7b-4102-a4a2-d31b9a6b1ce4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 300
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/5503160a-7b2a-4099-9ec6-0d3a551cb388/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 301
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0fa8f991-d412-4014-a7a7-be08ccf5fc4c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 302
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2445e8f0-04c4-43f5-87ff-e2f99a2528ed/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 303
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d35ecd39-0a9d-48f7-bf87-d3c318b8fadd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 304
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1a24edc7-8187-43b6-86aa-fcf56c223893/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 305
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/68581669-8e57-4ff9-bb70-71a99f8454c8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 306
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c0a38cc9-f0e9-40f5-9c1e-a4d7eba30825/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 307
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1cb1d3ff-ff5d-4c9b-84c9-89b9d235be36/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 308
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ae70a69c-341d-492a-b703-afa08a3497ba/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 309
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ad3cd014-8897-4613-8653-6d80c6eaff88/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 310
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f3d6345a-b760-4433-844e-e35204b44e09/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 311
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b5883529-3595-412d-b40f-b7ade9cc3304/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 312
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0722885e-4df8-4c98-8336-72b5e129e6be/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 313
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0a11c113-298b-4f77-a085-1b7cac225015/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 314
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a209e458-76a6-46fc-bb62-29850f38eb0d/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 315
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f633497f-c116-461f-a0e9-bb3fdcef7683/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 316
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a7ef0e01-74c3-48c5-8d0f-00241111cf69/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 317
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f588aa78-c29a-4187-9818-480b12d5b076/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 318
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d334294d-8dd2-4ae2-ae31-7d0d4acc2b6b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 319
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3e86ea71-8695-4815-ac18-0fd4510541a1/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 320
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b83befed-d2db-4806-907c-3f952798e117/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 321
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9eedb03f-340b-40ec-8a66-43d01973003e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 322
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/871d8a6b-7c73-4cd7-a4ed-4bdb58d5b6ee/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 323
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c7cd47a5-39e8-4c58-9b4f-a9c6df869db8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 324
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1f70ab0a-6efd-461b-b06e-3b47d3602f36/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 325
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b5c2eaef-cffa-490b-a80e-de2b37ca63d8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 326
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/28d75db6-0eb3-4651-b820-513a76013504/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 327
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a85da4d8-d984-45f3-8dbe-c8678eac8aae/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 328
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/845617a9-5a17-4f1f-9a6f-61ff844065e4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 329
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fe8810c2-457b-47e0-a3b9-50cab24718b4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 330
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c172fb87-e53f-468d-893a-d8528684accc/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 331
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/6ce22a01-9025-4afb-b3e9-652ce0c693b5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 332
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/71863fcf-d57c-433b-858f-87f5f11ec3da/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 333
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7b8b6c53-abff-4570-b413-91cc843181d8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 334
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3833e442-880a-4746-9df1-6347b7e5a081/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 335
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f739508f-51b2-48df-839c-e92c14d14c64/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 336
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/714e9d80-e4e3-40e6-9e79-2ca6d1d0a5a5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 337
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cf41fd07-c4c2-466c-9d85-774dcde02359/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 338
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/926b1773-807e-4ee5-8561-30c9eb0a6344/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 339
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/2e3894b5-2b6a-49c4-b2b6-0dde7375cb7b/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 340
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/f45dfc0c-70ef-48bd-83a2-30cf4a6ba0d5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 341
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/974d6469-d51f-4e4a-a393-32033f9b562e/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 342
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b84f370e-1b64-41d1-a4d8-f095fb79e5f8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 343
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/3c15657a-b3da-4513-8b9c-08bcc1ca0226/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 344
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9027ff05-4348-4061-a434-0befaba7c379/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 345
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d7736d53-f1cb-4899-8f3d-d8aaad1f1c67/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 346
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d379e5f5-32f3-4a6b-957f-5ccf607dda00/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 347
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/5ba2bf20-ca4e-4872-86fd-9026c9de8c93/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 348
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/443b8a84-7e77-4e9f-8a2a-56743897cba3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 349
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/75d3fdde-e74d-4ec2-a7f0-f88fe5971af3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 350
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/95c08faf-813c-4b71-9062-09569c5ff432/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 351
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/16fd8981-676d-4cbc-b010-8d731ba66a06/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 352
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9604dfeb-2724-459c-a25b-5e5e06d93fd8/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 353
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/ac013132-7e0c-4143-bc34-ea6428ce3082/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 354
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/aa12de63-7d11-4acf-af96-be89807729f7/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 355
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/75a9e66d-9bbe-46d7-971e-71ca8ef680ff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 356
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e62c9cd7-ada7-487d-87aa-b1ad4ab9a2c5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 357
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/240802cf-de55-472f-9e0a-710270ae9487/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 358
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/24e3b1a8-b80e-4c8c-ab21-83640d78f896/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 359
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/944dc12b-b2fd-4bf5-a59d-540e2b280cdd/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 360
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/09516dce-66a0-499f-8457-97f78bb921e6/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 361
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9a911d6f-39b5-425d-aea3-15e49e6395fa/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 362
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/0e5ffe58-83b2-445b-a439-9ee7a01642d4/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 363
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/01d6bd34-b8d1-4412-b53b-0d16b327abec/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 364
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/205ab9ab-56fd-4fdc-b3b3-91dc57be0fd3/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 365
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/98d5c3d9-bca6-4699-99e3-7b95a23025ce/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 366
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/953d3bf8-af3d-4287-ac22-dcd122c5eb51/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 367
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9f2b827b-01c6-4e82-b283-dfe91af30d88/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 368
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/b05bd7bd-387f-4fd7-a1b4-06a1dab5bc14/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 369
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c0459fa8-1790-46b8-a0f8-3064baf7c670/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 370
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c29640d9-39eb-4a03-9043-2a54eb5a3112/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 371
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/9bb6c40a-ec2c-4292-8ac8-d8b413abd301/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 372
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/c5fde834-52c8-411b-854e-8d3197def109/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 373
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7485f9ec-ac5f-4c6d-8c5f-6a023e7d29d5/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 374
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/fdf0722d-cb2e-46bd-8c1f-a85c6fbca3ff/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 375
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/cb94a696-bfbe-4566-8225-c337f988600c/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 376
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/1124d1b6-6182-4b5a-950b-27b38ef7c996/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 377
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/814b3516-d465-4faa-b89c-67c30c96a256/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 378
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/d8b7d2f7-7c3a-4a68-b6c1-48d197b22945/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 379
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/374e8aa3-09df-4d69-ad32-3133f6ad3c86/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 380
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/7272a7b8-6df2-4180-a95f-2ef7ad4412cc/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 381
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/a0b46166-6078-4045-8321-6df39b8e8ced/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 382
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/drm/card1/metrics/e5e22fbb-0ff4-44f6-a549-6ed41df0dd27/id
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 383
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/possible
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 384
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu0/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 385
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu1/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 386
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu2/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 387
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu3/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 388
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu4/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 389
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu5/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 390
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu6/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 391
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu7/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 392
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu8/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 393
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu9/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 394
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu10/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 395
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu11/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 396
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu12/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 397
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu13/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 398
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu14/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 399
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu15/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 400
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu16/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 401
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu17/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 402
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu18/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 403
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu19/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 404
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu20/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 405
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/devices/system/cpu/cpu21/cpu_capacity
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 406
+[SG] +++++++++++++++
+GBM device created successfully!
+------------------------------------
+[DEBUG] Application Main Start.
+[DEBUG] Installing SIGABRT handler...
+[DEBUG] Parsing command line arguments...
+[DEBUG] Opening X Display connection...
+[P1:T1:glxg] [SG] Am I non-blocking: 0
+pal_common_socket_create: domain=1, type=0, options=0x0
+Creating VSOCK socket...
+Socket created with fd 0 for SOCK-TYPE: 0
+
+[P1:T1:glxg] Connecting to remote (NET) peer... (7942eb10)
+[DEBUG] Entering make_window function...
+[DEBUG] Choosing GLX Visual...
+[DEBUG] Setting window attributes...
+[DEBUG] Calling XCreateWindow...
+[DEBUG] Setting normal hints and standard properties...
+[DEBUG] Creating GLX Context...
+[DEBUG] make_window function finished.
+[DEBUG] Mapping X Window...
+[DEBUG] Making GLX Context Current...
+EGL func intd successfully!
+[SG] +++++++++++++++
+EGL Display created successfully!
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 407
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+[SG] +++++++++++++++
+getdent() returned: 112
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 408
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 409
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 410
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 411
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 412
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 413
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 414
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 415
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 416
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 417
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fcntl() returned: 418
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 419
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 112
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 420
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 421
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 422
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 423
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 424
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 425
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 426
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 427
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 428
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 429
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 430
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 112
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 431
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 432
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 433
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 434
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 435
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 436
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 437
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 438
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 439
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 440
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 441
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 112
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 442
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 443
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 444
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 445
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 446
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 447
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 448
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 449
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 450
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 451
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 452
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /dev/dri
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 453
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 112
+[P1:T1:glxg] Opening pseudofs node: dri (type=1)
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 454
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 455
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 456
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 457
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:128/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 458
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+newfstatat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: 16
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/uevent
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 459
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+readlink() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 460
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 461
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_vendor
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 462
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() is called: /sys/dev/char/226:1/device/subsystem_device
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+open() returned: 463
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+getdent() returned: 0
+[SG] +++++++++++++++
+EGL choose config created successfully!
+EGL Bound API successfully 0x1c6f42b20!
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ea40) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ea34) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946eaf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x186fe6000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e8b0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e8a4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e8b0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x1871e7000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+fstat() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946ead0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299769, 0x1c946ead0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299757, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824053, 0x1c946eb20) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824053, 0x1c946eaf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824053, 0x1c946eb20) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e874) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x1871f8000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e9a0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e994) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946ea50) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x1871fa000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946eb80) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e874) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x18721b000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e9a0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e994) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946ea50) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x18721d000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946eb80) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e874) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e880) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x18723e000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e9a0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e994) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946ea50) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187240000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946eb80) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946c940) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946c934) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946c940) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187261000
+[SG] +++++++++++++++
+EGL CTX created successfully!
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ec30) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ec24) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037549, 0x1c946eebc) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+dup() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+dup() returned: 465
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+X11_SETUP() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+X11_SETUP() completed
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037550, 0x1c946ea4c) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ebf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ebe4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ebf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ebe4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ec30) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ec24) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037549, 0x1c946eebc) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+dup() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+dup() returned: 466
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+X11_SETUP() is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+X11_SETUP() completed
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037550, 0x1c946ea4c) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ebf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ebe4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ebf0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ebe4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946ea20) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ea14) is called
+[SG] +++++++++++++++
+FB; 1
+************************************
+----------------
+************************************
+----------------
+[DEBUG] Entering Init function...
+[DEBUG] Setting light position...
+[DEBUG] Enabling GL capabilities...
+[DEBUG] Generating GL List for Gear 1...
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946eb40) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187263000
+[SG] +++++++++++++++
+[DEBUG] Generating GL List for Gear 2...
+[DEBUG] Generating GL List for Gear 3...
+[DEBUG] Init function finished.
+[DEBUG] Performing initial reshape...
+[DEBUG] Entering Reshape function...
+[DEBUG] Calculating mono projection...
+[DEBUG] Reshape function finished.
+[DEBUG] Entering event_loop...
+[DEBUG] Executing draw sequence...
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946de00) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946ddf4) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946de00) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187464000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946dd40) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946dd34) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946dd40) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187475000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x1c946e590) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x1c946e584) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x1c946e610) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187486000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222824060, 0x17933c780) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1074553951, 0x17933c774) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223348324, 0x17933c780) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+mmap() returned: 0x187507000
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1077961833, 0x1c946ee60) is called
+[SG] +++++++++++++++
+[DEBUG] Draw sequence finished.
+[DEBUG] Swapping buffers...
+Before glFlush
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ede8) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223872707, 0x1c946ece0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ed28) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946ee70) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1077961833, 0x1c946ee60) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ede8) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223872707, 0x1c946ece0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ed28) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946ee70) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 1077961833, 0x1c946ee60) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ede8) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223872707, 0x1c946ece0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ed28) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946ee70) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+X11_PRESENT() is called
+
+[SG] +++++++++++++++
+After glFlush
+Sent Comm in Swap Buffers
+[SG] +++++++++++++++
+X11_PRESENT() completed
+[SG] +++++++++++++++
+Comm done in Swap Buffers
+Before glBindFramebuffer
+After glBindFramebuffer
+[DEBUG] Buffer swap complete.
+[DEBUG] Executing draw sequence...
+[DEBUG] Draw sequence finished.
+[DEBUG] Swapping buffers...
+Before glFlush
+[SG] +++++++++++++++
+ioctl(126, 1077961833, 0x1c946ee60) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: -1
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222299845, 0x1c946eea0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ede8) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3223872707, 0x1c946ece0) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3222037606, 0x1c946ed28) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl(126, 3221775551, 0x1c946ee70) is called
+[SG] +++++++++++++++
+[SG] +++++++++++++++
+ioctl() returned: 0
+[SG] +++++++++++++++
+
+========= SIGABRT CAUGHT =========
+
+--- REGISTERS ---
+RAX: 0000000000000000  RBX: 0000000000000001
+RCX: 00000000001642cc  RDX: 0000000000000006
+RSI: 0000000000000001  RDI: 0000000000000001
+RBP: 00000001c6da2740  RSP: 00000001c946ede0
+R8:  00000001772497e0  R9:  0000000000000000
+R10: 0000000000000008  R11: 0000000000000216
+R12: 00000000ffffffff  R13: 0000000000000006
+R14: 000000017724f080  R15: 000000017724f630
+RIP: 00000001c6fd6f7c  EFL: 0000000000000216
+
+--- STACK ---
+0x1c946ede0: 00000001c946ee40
+0x1c946ede8: 0000000000020000
+0x1c946edf0: 0000000000000006
+0x1c946edf8: 00000001c6da2740
+0x1c946ee00: 00000000ffffffff
+0x1c946ee08: 0000000177265c30
+0x1c946ee10: 000000017724f080
+0x1c946ee18: 00000001c6f89596
+0x1c946ee20: 00000001c711bd30
+0x1c946ee28: 00000001c6f72869
+0x1c946ee30: 00000001c946ee38
+0x1c946ee38: 0000000000000020
+0x1c946ee40: 00000002c946eee0
+0x1c946ee48: 00000001c946ee70
+0x1c946ee50: 000000000000007e
+0x1c946ee58: 00000001c946eea0
+
+==========================================
+[ VM exited with code 1 ]

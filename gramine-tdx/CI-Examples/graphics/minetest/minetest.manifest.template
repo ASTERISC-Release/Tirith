@@ -1,0 +1,89 @@
+##############################################
+# LibOS Settings
+##############################################
+libos.entrypoint = "/luanti-5.6.1/bin/minetest"
+
+##############################################
+# Loader
+##############################################
+sys.stack.size = "32M"
+sys.experimental__shared_input_ring = true
+# sys.brk.max_size = "1G"
+# Loader configuration
+loader.insecure__use_host_env = true
+# loader.log_level = "trace"
+# Loader environment overrides
+loader.argv = [
+    "minetest",
+    "--go",
+]
+
+loader.env.LD_LIBRARY_PATH = "/opt/mesa/lib/x86_64-linux-gnu:/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+loader.env.LD_PRELOAD = "./egl_redirect.so"
+loader.env.HOME = "/root"
+loader.env.USER = "root"
+loader.env.XDG_CONFIG_HOME = "/root/.config"
+loader.env.XDG_DATA_HOME = "/root/.local/share"
+loader.env.XDG_CACHE_HOME = "/root/.cache"
+loader.env.DISPLAY = "2:0"
+loader.env.IVSHMEM_GRAMINE_VM = "1"
+loader.env.HOST_SDL_WINDOW = "1"
+loader.env.GALLIUM_THREAD="0"
+loader.env.GLIBC_TUNABLES = "glibc.pthread.rseq=0"
+loader.env.__GL_SYNC_TO_VBLANK="0"
+loader.env.vblank_mode="0"
+loader.env.ALSOFT_DRIVERS="null"
+libos.check_invalid_pointers = false
+loader.env.SDL_AUDIODRIVER="dummy"
+loader.env.PULSE_SERVER="none"
+loader.env.PIPEWIRE_REMOTE="none"
+loader.uid = 1000
+loader.gid = 1000
+loader.env.GBM_BACKEND="dri"
+loader.env.VK_ICD_FILENAMES="/opt/mesa/share/vulkan/icd.d/mesa_icd.x86_64.json"
+loader.env.VK_LOADER_DEBUG="all"
+loader.env.EGL_GRAMINE="1"
+loader.env.EGL_SHARED_INPUT="1"
+loader.env.EGL_DISCRETE="0"
+loader.env.EGL_SYSCALL_LOG="0"
+loader.env.EGL_SANITY_FULL="0"
+loader.env.EGL_IOCTL_LOG="0"
+loader.env.EGL_DUMP_PNG="0"
+loader.env.MESA_LOG="0"
+
+##############################################
+# Core mounts
+##############################################
+##############################################
+# Filesystem Mounts (ALL in one array)
+##############################################
+
+fs.mounts = [
+  # Core system dirs
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/egl_redirect.so", uri = "file:/root/Tirith/egl-redirect/egl_redirect.so" },
+
+  # Override libGL
+  { path = "/usr", type = "chroot", uri = "file:/usr"},
+  { path = "/usr/lib/libGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGL.so.1" },
+  { path = "/usr/lib/libEGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libEGL.so.1" },
+  { path = "/usr/lib/libgbm.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgbm.so.1" },
+  { path = "/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so" },
+  { path = "/usr/lib/libgbm.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgbm.so" },
+  { path = "/usr/lib/libGLESv2.so.2", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGLESv2.so.2" },
+  { path = "/usr/lib/libgallium-25.2.0-devel.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgallium-25.2.0-devel.so" },
+
+  # Config files + Mesa shader cache
+  { path = "/etc/ld.so.cache", uri = "file:/etc/ld.so.cache" },
+  { path = "/sys", type = "chroot", uri = "file:/sys" },
+  { path = "/sys/dev", type = "chroot", uri = "file:/sys/dev"},
+  { path = "/sys/devices", type = "chroot", uri = "file:/sys/devices"},
+  { path = "/sys/bus/pci", type = "chroot", uri = "file:/sys/bus/pci"},
+
+  # minetest specific files
+  { path = "/luanti-5.6.1", type = "chroot", uri = "file:/root/Tirith/gramine-tdx/CI-Examples/graphics/minetest/luanti-5.6.1/"},
+  { path = "/root/.cache/", type = "chroot", uri = "file:/root/.cache/"},
+
+  # png log dump location
+  # { path = "/png_logs", type = "chroot", uri = "file:/root/Tirith/gramine-tdx/CI-Examples/graphics/minetest/png_logs"},
+]

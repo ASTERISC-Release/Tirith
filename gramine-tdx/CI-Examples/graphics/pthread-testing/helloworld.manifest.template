@@ -1,0 +1,43 @@
+# Copyright (C) 2023 Gramine contributors
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Hello World manifest file example
+
+libos.entrypoint = "/helloworld"
+loader.log_level = "{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib"
+loader.env.HOME = "/home/adil"
+loader.env.USER = "adil"
+# loader.env.SGL_NETWORK_ENDPOINT="0.0.0.2:11111"
+# loader.env.SGL_NET_OVER_SHARED="0.0.0.2:11111"
+loader.env.DISPLAY="2:0"
+loader.env.IVSHMEM_GRAMINE_VM="1"
+# loader.env.LIBGL_ALWAYS_SOFTWARE="1"
+#loader.env.SGL_NETWORK_ENDPOINT="192.168.12.112:6000"
+# loader.env.Xauthority = "/home/gramine/.Xauthority"
+
+loader.insecure__use_host_env = true
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  # { path = "/home/adil/.Xauthority", uri = "file:/home/adil/.Xauthority" },
+  # { type = "untrusted_shm", path = "/tmp/x11-unix", uri = "dev:/tmp/.X11-unix/" },
+  # { type = "untrusted_shm", path = "/dev/shm/sharedgl_shared_memory", uri = "dev:/dev/shm/sharedgl_shared_memory" },
+  # { type = "untrusted_shm", path = "/dev/shm/", uri = "dev:/dev/shm/" },
+  # { type = "untrusted_shm", path = "/dev/shm/sharedgl_shared_memory", uri = "dev:/dev/shm/sharedgl_shared_memory" },
+  { path = "/usr/lib/libX11.so.6", uri = "file:/usr/lib/libX11.so.6" },
+  { path = "/usr/lib/libxcb.so.1", uri = "file:/usr/lib/libxcb.so.1" },
+  { path = "/usr/lib/libXau.so.6", uri = "file:/usr/lib/libXau.so.6" },
+  { path = "/usr/lib/libXdmcp.so.6", uri = "file:/usr/lib/libXdmcp.so.6" },
+  { path = "/usr/lib/libGL.so.1", uri = "file:/home/adil/Projects/gramine-tdx-testing/sharedgl/build/libGL.so.1" },
+  { path = "/helloworld", uri = "file:helloworld" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:helloworld",
+  "file:{{ gramine.runtimedir() }}/",
+]

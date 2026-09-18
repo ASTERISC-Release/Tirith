@@ -1,0 +1,85 @@
+##############################################
+# LibOS Settings
+##############################################
+libos.entrypoint = "/usr/bin/glxgears"
+
+##############################################
+# Loader
+##############################################
+
+# Loader configuration
+loader.insecure__use_host_env = true
+loader.log_level = "debug"
+# Loader environment overrides
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+loader.env.LD_PRELOAD = "./egl_hook.so"
+loader.env.HOME = "/home/adil"
+loader.env.USER = "adil"
+loader.env.DISPLAY = "2:0"
+loader.env.IVSHMEM_GRAMINE_VM = "1"
+loader.env.HOST_SDL_WINDOW = "1"
+loader.env.GALLIUM_THREAD="0"
+loader.env.GLIBC_TUNABLES = "glibc.pthread.rseq=0"
+loader.env.__GL_SYNC_TO_VBLANK="0"
+loader.env.vblank_mode="0"
+##############################################
+# Core mounts
+##############################################
+##############################################
+# Filesystem Mounts (ALL in one array)
+##############################################
+
+fs.mounts = [
+  # Core system dirs
+  # { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/lib", uri = "file:/home/adil/Projects/gramine-tdx-testing/gramine-tdx/built-debug/lib/gramine/runtime/glibc" },
+  { path = "/usr/lib/", uri = "dev:/usr/lib/" },
+  { path = "/usr/lib64/", uri = "dev:/usr/lib64/" },
+  # { path = "/lib64/", uri = "dev:/lib64/" },
+
+  # { path = "/lib", uri = "file:/home/santosh:/santosh/gramine-tdx-testing/gramine-tdx/built-debug/lib/x86_64-linux-gnu/gramine/runtime/glibc" },
+  # { path = "/usr/lib", uri = "file:/usr/lib" },
+  
+  # { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+  # { path = "/lib/x86_64-linux-gnu", uri = "file:/lib/x86_64-linux-gnu" },
+    { path = "/egl_hook.so", uri = "file:/home/santosh/santosh/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/egl/egl_hook.so" },
+    { path = "/hook.so", uri = "file:/home/santosh/santosh/gramine-tdx-testing/shared_objects/hook/hook.so" },
+
+  
+  # Override libGL
+  # { path = "/usr/lib/libGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGL.so.1" },
+  # { path = "/usr/lib/libEGL.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libEGL.so.1" },
+  # { path = "/usr/lib/libgbm.so.1", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgbm.so.1" },
+
+  # { path = "/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/gbm/dri_gbm.so" },
+  # { path = "/usr/lib/libgbm.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgbm.so" },
+  # { path = "/usr/lib/libGLESv2.so.2", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libGLESv2.so.2" },
+  # { path = "/usr/lib/libgallium-25.2.0-devel.so", uri = "file:/opt/mesa/lib/x86_64-linux-gnu/libgallium-25.2.0-devel.so" },
+
+  # GPU device nodes
+  # { path = "/dev/dri/renderD128", uri = "dev:/dev/dri/renderD128" } -> This is handled by creating a fake node in the pseudo fs
+
+  # GBM driver
+  { path = "/usr/lib/gbm/dri_gbm.so", uri = "file:/usr/lib/gbm/dri_gbm.so" },
+
+  # Config files + Mesa shader cache
+  { path = "/etc/ld.so.cache", uri = "file:/etc/ld.so.cache" },
+  { path = "/sys", type = "chroot", uri = "file:/sys" },
+  { path = "/sys/dev", type = "chroot", uri = "file:/sys/dev"},
+  { path = "/sys/devices", type = "chroot", uri = "file:/sys/devices"},
+  { path = "/sys/bus/pci", type = "chroot", uri = "file:/sys/bus/pci"},
+
+  # { path = "/opt/mesa/share/drirc.d/00-mesa-defaults.conf", uri = "file:/opt/mesa/share/drirc.d/00-mesa-defaults.conf" },
+  # { path = "/opt/mesa/share/drirc.d/", uri = "file:/opt/mesa/share/drirc.d/" },
+
+  { path = "/usr", type = "chroot", uri = "file:/usr"},
+  { path = "/home/adil/.cache/", type = "chroot", uri = "file:/home/adil/.cache/"},
+]
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:./glxg",
+  "file:{{ gramine.runtimedir() }}/",
+]
+

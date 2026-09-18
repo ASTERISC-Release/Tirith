@@ -1,0 +1,78 @@
+##############################################
+# LibOS Settings
+##############################################
+libos.entrypoint = "/bastion/Bastion/game/Bastion.bin.x86_64"
+
+##############################################
+# Loader  
+##############################################
+
+# Loader configuration
+loader.insecure__use_host_env = true
+# loader.log_level = "trace"
+# Loader environment overrides
+sys.stack.size = "512K"
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+loader.env.LD_PRELOAD = "./egl_hook.so"
+loader.env.HOME = "/root"
+loader.env.USER = "root_user"
+loader.env.DISPLAY = "2:0"
+loader.env.IVSHMEM_GRAMINE_VM = "1"
+loader.env.HOST_SDL_WINDOW = "1"
+loader.env.GALLIUM_THREAD="0"
+loader.env.GLIBC_TUNABLES = "glibc.pthread.rseq=0"
+loader.env.__GL_SYNC_TO_VBLANK="0"
+loader.env.vblank_mode="0"
+loader.env.ALSOFT_DRIVERS="null"
+libos.check_invalid_pointers = false
+loader.env.SDL_AUDIODRIVER="dummy"
+loader.env.PULSE_SERVER="none"
+loader.env.PIPEWIRE_REMOTE="none"
+loader.env.MONO_MANAGED_WATCHER="disabled"
+loader.env.MONO_THREADS_SUSPEND="coop"
+loader.env.MONO_LOG_LEVEL="debug"
+loader.env.MONO_DISABLE_AIO="1"
+loader.env.MONO_LOG_MASK="signal,io-layer,threadpool"
+
+loader.uid = 1000
+loader.gid = 1000
+
+##############################################
+# Core mounts
+##############################################
+##############################################
+# Filesystem Mounts (ALL in one array)
+##############################################
+
+fs.mounts = [
+  # Core system dirs
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr/lib", uri = "file:/usr/lib" },
+  { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+  { path = "/lib/x86_64-linux-gnu", uri = "file:/lib/x86_64-linux-gnu" },
+  { path = "/egl_hook.so", uri = "file:/root/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/egl/egl_hook.so" },
+  { path = "/hook.so", uri = "file:/root/gramine-tdx-testing/shared_objects/hook/hook.so" },
+
+  # GBM driver
+  { path = "/usr/lib/x86_64-linux-gnu/gbm/dri_gbm.so", uri = "file:/usr/lib/x86_64-linux-gnu/gbm/dri_gbm.so" },
+
+  # Config files + Mesa shader cache
+  { path = "/etc/ld.so.cache", uri = "file:/etc/ld.so.cache" },
+   { path = "/sys", type = "chroot", uri = "file:/sys" },
+   { path = "/sys/dev", type = "chroot", uri = "file:/sys/dev"},
+    { path = "/sys/devices", type = "chroot", uri = "file:/sys/devices"},
+    { path = "/sys/bus/pci", type = "chroot", uri = "file:/sys/bus/pci"},
+
+  #minetest
+   { path = "/bastion", type = "chroot", uri = "file:/root/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/bastion/"},
+   { path = "/usr", type = "chroot", uri = "file:/usr"},
+   { path = "/root/.cache/", type = "chroot", uri = "file:/root/.cache/"},
+]
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:./glxg",
+  "file:{{ gramine.runtimedir() }}/",
+]
+

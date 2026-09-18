@@ -1,0 +1,23 @@
+# Copyright (C) 2023 Gramine contributors
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Hello World manifest file example
+
+libos.entrypoint = "/client"
+loader.log_level = "{{ log_level }}"
+
+loader.env.IVSHMEM_GRAMINE_VM="1"
+loader.env.LD_LIBRARY_PATH = "/lib"
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/client", uri = "file:client" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:client",
+  "file:{{ gramine.runtimedir() }}/",
+]

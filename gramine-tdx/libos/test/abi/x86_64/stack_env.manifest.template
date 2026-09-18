@@ -1,0 +1,20 @@
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "{{ entrypoint }}"
+
+loader.env.foo = "bar"
+loader.env.env0 = "val0"
+
+loader.insecure__use_cmdline_argv = true
+
+fs.mounts = [
+  { path = "/{{ entrypoint }}", uri = "file:{{ binary_dir }}/{{ entrypoint }}" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+sgx.max_threads = {{ '1' if env.get('EDMM', '0') == '1' else '4' }}
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ binary_dir }}/{{ entrypoint }}",
+]

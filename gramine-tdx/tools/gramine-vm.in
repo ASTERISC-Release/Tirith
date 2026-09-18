@@ -1,0 +1,232 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: LGPL-3.0-or-later
+# Copyright (C) 2023 Intel Corporation
+
+# This file is based on `gramine.in` and modified for VM/TDX environment and QEMU.
+
+BIOS_PATH=@BIOS_PATH@
+LIBPAL_PATH=@LIBPAL_PATH@
+HOST_PAL_PATH=@HOST_PAL_PATH@
+TDSHIM_PAL_PATH=@TDSHIM_PAL_PATH@
+
+APPLICATION=
+QEMU_GDB=
+ENVS=()
+PREFIX=()
+
+if [ "$GDB" == "1" ]; then
+    QEMU_GDB="-gdb tcp::9000 -S"
+fi
+
+while [ "$1" != "" ]; do
+    if [ "$APPLICATION" == "" ]; then
+        APPLICATION=$1
+        shift
+        continue
+    fi
+    
+    break
+done
+
+if [ "$APPLICATION" == "" ]; then
+    echo "Usage: $0 [<application>] <args>..."
+    exit 2
+fi
+
+# Try to get the VM memory config from `.manifest.tdx` file, by parsing `tdx.enclave_size` value.
+# If this fails, try alternatively with `.manifest.sgx` and `sgx.enclave_size`
+#
+# We enforce a 1GB lower limit for VM memory because (a) Gramine VM kernel reserves ~512MB for
+# shared virtio-queues memory, page tables, PAL binary, etc. and (b) for simplicity we want to reuse
+# already-existing SGX manifests, thus we don't want to bump `sgx.enclave_size` to 1GB explicitly.
+export GRAMINE_MANIFEST=$APPLICATION.manifest
+QEMU_MEM_SIZE=$(python3 -c "
+import os
+import re
+import sys
+from graminelibos import Manifest
+
+manifests = {
+    'tdx': os.environ['GRAMINE_MANIFEST'] + '.tdx',
+    'sgx': os.environ['GRAMINE_MANIFEST'] + '.sgx',
+}
+
+size_str = ''
+for type, file in manifests.items():
+    try:
+        with open(file, 'rb') as f:
+            manifest_data = f.read()
+        manifest = Manifest.loads(manifest_data.decode('utf-8'))
+        size_str = manifest[type]['enclave_size']
+        break
+    except Exception:
+        continue
+else:
+    sys.exit(1)
+
+unit = 1
+if size_str.endswith('G'):
+    unit = 1024 * 1024 * 1024
+elif size_str.endswith('M'):
+    unit = 1024 * 1024
+elif size_str.endswith('K'):
+    unit = 1024
+
+try:
+    size = int(re.search(r'\d+', size_str).group())
+    print(size_str if unit * size > 1024 * 1024 * 1024 else '1G')
+except Exception:
+    sys.exit(1)
+")
+# If file parsing fails, then try the config from environment variable `GRAMINE_RAM_SIZE`.
+QEMU_MEM_SIZE=${QEMU_MEM_SIZE:-$GRAMINE_RAM_SIZE}
+# If both file and envvar parsing fail, then fall back to the default value of 8GB.
+QEMU_MEM_SIZE=${QEMU_MEM_SIZE:-"8G"}
+
+# Try the config from environment variable `GRAMINE_CPU_NUM`, then fall back to default of 1.
+QEMU_CPU_NUM=${QEMU_CPU_NUM:-$GRAMINE_CPU_NUM}
+QEMU_CPU_NUM=${QEMU_CPU_NUM:-"1"}
+
+# GRAMINE_CPU_NUM="7"
+# QEMU_CPU_NUM=$GRAMINE_CPU_NUM
+
+REPO=$(python3 -c "import os, re; print(re.sub(r'^(.*?(Tirith|gramine-gaming)).*', r'\1', os.getcwd()))")
+QEMU_PATH="$REPO/qemu/build/qemu-system-x86_64"
+
+QEMU_VM="-cpu host,host-phys-bits,-kvm-steal-time,pmu=off,+tsc-deadline,+invtsc \
+-m $QEMU_MEM_SIZE -smp $QEMU_CPU_NUM"
+QEMU_OPTS="-enable-kvm -vga none -display none -no-reboot -monitor none "
+
+RAW_MEM_SIZE=$(echo $QEMU_MEM_SIZE | tr -d 'G')
+REM_MEM_SIZE=$((RAW_MEM_SIZE - 4))
+if [ "$GRAMINE_HUGEPAGES" == "1" ]; then
+    echo "Configuring Gramine VM with hugepages support."
+    if [ "$(echo $QEMU_MEM_SIZE | tr -d 'G')" -lt 8 ]; then
+        echo "Error: Gramine hugepages mode requires at least 8GB of VM memory."
+        exit 2
+    fi
+
+    REM_MEM_SIZE="$((REM_MEM_SIZE))G"
+    echo "REM_MEM_SIZE = $REM_MEM_SIZE"
+
+    # 3 separate DIMMs (0 - 4GB hugepages, 4GB - 5GB normal, 5GB - rest hugepages)
+    QEMU_OPTS+="-object memory-backend-memfd,id=huge0,size=2G,hugetlb=on,hugetlbsize=2M \
+    -object memory-backend-memfd,id=ram1,size=2G \
+    -object memory-backend-memfd,id=huge2,size=$REM_MEM_SIZE,hugetlb=on,hugetlbsize=2M \
+    -numa node,memdev=huge0,nodeid=0 \
+    -numa node,memdev=ram1,nodeid=1 \
+    -numa node,memdev=huge2,nodeid=2 "
+else
+    echo "Configuring Gramine VM without hugepages."
+
+    # 3 separate DIMMs (0 - 4GB hugepages, 4GB - 5GB normal, 5GB - rest hugepages)
+    REM_MEM_SIZE="$((REM_MEM_SIZE))G"
+    echo "REM_MEM_SIZE = $REM_MEM_SIZE"
+    QEMU_OPTS+="-object memory-backend-memfd,id=huge0,size=2G \
+    -object memory-backend-memfd,id=ram1,size=2G \
+    -object memory-backend-memfd,id=huge2,size=$REM_MEM_SIZE \
+    -numa node,memdev=huge0,nodeid=0 \
+    -numa node,memdev=ram1,nodeid=1 \
+    -numa node,memdev=huge2,nodeid=2 "
+fi
+
+if [ "$TDSHIM_PAL_PATH" == "" ]; then
+    QEMU_MACHINE="-M q35,kernel_irqchip=on"
+    QEMU_BINARIES="-kernel $LIBPAL_PATH -device loader,file=$BIOS_PATH"
+else
+    QEMU_MACHINE="-M q35,kernel_irqchip=split,confidential-guest-support=tdx \
+    -object tdx-guest,id=tdx,quote-generation-service=vsock:2:4050"
+    QEMU_BINARIES="-bios $TDSHIM_PAL_PATH"
+fi
+
+# We need to specify a Gramine VM ID to be able to run two independent Gramine instances at the
+# same time on the same machine. They are used as IDs for the virtiofs and the vsock guest-cid.
+DEFAULT_GRAMINE_VM_ID=10
+GRAMINE_VM_ID=$(python3 -c "
+import psutil
+import re
+
+# Identify the qemu processes
+qemu_processes = []
+try:
+    for process in psutil.process_iter(['pid', 'name', 'cmdline']):
+        if 'qemu' in process.info['name']:
+            qemu_processes.append(process)
+except Exception:
+    sys.exit('Exception while iterating over system processes.')
+
+# Identify the occupied guest-cids
+used_cids = set()
+for process in qemu_processes:
+    pid = process.info['pid']
+    cmdline = ' '.join(process.info['cmdline'])
+    match = re.search(r'guest-cid=(\d+)', cmdline)
+    guest_cid = int(match.group(1)) if match else None
+    if guest_cid is not None:
+        used_cids.add(guest_cid)
+
+# Identify the next available Gramine VM ID based on the uniquely assigned vsock guest-cid.
+cid = "$DEFAULT_GRAMINE_VM_ID"
+while cid in used_cids:
+    cid += 1
+
+# Check that the guest-cid is in a valid range
+if cid > 2 and cid < 0xffffffff:
+    print(cid)
+else:
+    sys.exit('Invalid chosen CID value: ' + str(cid) + '. It must be > 2 and < 0xffffffff.')
+" 2>&1)
+EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+    echo "Error: Python script for determining the Gramine-VM ID exited with a non-zero status: $EXIT_STATUS"
+    echo "Error message: $GRAMINE_VM_ID"
+    exit $EXIT_STATUS
+fi
+
+QEMU_VIRTIO_CONSOLE="-device virtio-serial,iommu_platform=off,romfile= \
+-chardev stdio,id=virtioconsole0 \
+-device virtconsole,chardev=virtioconsole0"
+QEMU_VIRTIO_FS="-chardev socket,path=/tmp/gramine_vhostfs_"$GRAMINE_VM_ID",id=vhostfs \
+-device vhost-user-fs-pci,iommu_platform=off,queue-size=1024,chardev=vhostfs,tag=graminefs"
+QEMU_VIRTIO_VSOCK="-device vhost-vsock-pci,iommu_platform=off,guest-cid="$GRAMINE_VM_ID",id=vsockdev"
+
+# Due to QEMU syntax, commas in the QEMU cmdline need to be escaped using an additional comma.
+APPLICATION=${APPLICATION//","/",,"}
+GRAMINE_ARGS="-gramine-args init \"$APPLICATION\" $@ -gramine-args-end"
+
+GRAMINE_ENVS=$(python3 -c "
+import os
+env_str = ''
+for name, value in os.environ.items():
+    env_str += ('\"{0}={1}\" '.format(name, value).replace(',', ',,'))
+print(env_str)
+")
+GRAMINE_ENVS="-gramine-envs $GRAMINE_ENVS -gramine-envs-end"
+
+CMD=("${ENVS[@]}")
+CMD+=("${PREFIX[@]}")
+CMD+=($QEMU_PATH $QEMU_GDB $QEMU_VM $QEMU_OPTS $QEMU_MACHINE
+    $QEMU_VIRTIO_CONSOLE $QEMU_VIRTIO_FS $QEMU_VIRTIO_VSOCK $QEMU_BINARIES
+    -fw_cfg name=opt/gramine/pwd,string="$PWD"
+    -fw_cfg name=opt/gramine/args,string="$GRAMINE_ARGS"
+    -fw_cfg name=opt/gramine/envs,string="$GRAMINE_ENVS"
+-fw_cfg name=opt/gramine/unixtime_s,string="$EPOCHSECONDS")
+
+# Check if the Gramine vhostfs pid file is already in use by another process
+if lsof /tmp/gramine_vhostfs_"$GRAMINE_VM_ID".pid 2>/dev/null; then
+    echo "Error: /tmp/gramine_vhostfs_"$GRAMINE_VM_ID".pid is already in use."
+    exit 2
+fi
+virtiofsd --socket-path /tmp/gramine_vhostfs_"$GRAMINE_VM_ID" --shared-dir / --log-level error \
+--sandbox none --no-announce-submounts &
+while [ ! -e /tmp/gramine_vhostfs_"$GRAMINE_VM_ID" ]; do sleep 0.1; done
+
+# echo "${CMD[@]}"
+
+exec env "${CMD[@]}"
+# env "${CMD[@]}"
+# CHILD_STATUS=$?
+#
+# # normal exit: cleanup trap will run due to EXIT
+# exit "$CHILD_STATUS"

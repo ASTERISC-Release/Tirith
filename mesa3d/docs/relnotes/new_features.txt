@@ -1,0 +1,26 @@
+removed clover frontend
+VK_EXT_vertex_input_dynamic_state/vertexInputDynamicState on panvk
+pushDescriptor on panvk
+VK_EXT_vertex_input_dynamic_state on panvk
+VK_EXT_vertex_attribute_divisor on panvk
+supportsNonZeroFirstInstance on panvk
+GL_ARB_blend_func_extended on v3d
+dualSrcBlend on v3dv
+VK_KHR_maintenance4 on panvk/v10+
+VK_KHR_maintenance5 on panvk/v10+
+VK_EXT_direct_mode_display on panvk
+VK_EXT_extended_dynamic_state[2] on panvk
+Vulkan 1.2 on panvk/v10+
+VK_KHR_shader_quad_control on panvk/v10+
+multiDrawIndirect on panvk/v10+
+VK_KHR_draw_indirect_count on panvk/v10+
+VK_KHR_shader_integer_dot_product on panvk
+VK_KHR_shader_terminate_invocation on panvk
+VK_EXT_shader_demote_to_helper_invocation on panvk
+VK_EXT_shader_replicated_composites on panvk
+VK_EXT_depth_bias_control on panvk
+VK_KHR_shader_bfloat16 on anv/gfx125+ and radv/gfx12+
+VK_KHR_robustness2 on RADV
+VK_EXT_zero_initialize_device_memory on RADV and NVK
+VK_EXT_primitive_topology_list_restart on panvk
+VK_EXT_image_2d_view_of_3d on panvk

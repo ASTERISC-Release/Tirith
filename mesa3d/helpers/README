@@ -1,0 +1,24 @@
+## Step-1: Building Mesa3D with LLVM compiler.
+
+* Make changes to the appropriate `meson.build` to emit LLVM IR files. Refer `src/mesa/meson.build`.
+* `meson setup build -Dprefix=/opt/mesa -Dgallium-drivers=auto -Dbuildtype=debug -Dvulkan-drivers=intel -Dc_args='-Wno-typedef-redefinition' --wipe`
+* `ninja -C build install -j10`
+* Check LLVM IR generated inside `build/`
+
+## Step-2: Collate all LLVM IR into a single IR.
+
+*  Run `llvm-link *.ll -o linked.ll` inside the `build/` dir.
+
+## Script-1: Given a start-fn, extract places at which an ioctl is made
+
+* Switch to `helpers/` dir.
+* `clang++ -fPIC -shared -o libGlAccessTracker.so GlAccessTracker.cpp $(llvm-config --cxxflags --ldflags --system-libs --libs core passes) -std=c++17`
+* `clang++ -fPIC -shared -o libGlIoctlAccessTracker.so GlIoctlAccessTracker.cpp $(llvm-config --cxxflags --ldflags --system-libs --libs core passes) -std=c++17`
+* `python3 extract_ioctl_accesses.py --start-fn _mesa_DrawElements`
+
+## Script-2: Given a start-fn, extract places at which generic function-pointer access is made
+
+* `clang++ -fPIC -shared -o libGlFPAccessTracker.so FPAccessTracker.cpp $(llvm-config --cxxflags --ldflags --system-libs --libs core passes) -std=c++17`
+* `opt -load-pass-plugin ./libGlFPAccessTracker.so -passes=funcptr-access -disable-output ../build/linked.ll`
+
+

@@ -1,0 +1,82 @@
+FROM ubuntu@sha256:cd1dba651b3080c3686ecf4e3c4220f026b521fb76978881737d24f200828b2b
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="${PATH}:/root/Tirith/gramine-tdx/built-debug/bin:/usr/lib/qemu/:/usr/libexec/"
+ENV PYTHONPATH="/root/Tirith/gramine-tdx/built-debug/lib/python3.12/site-packages/"
+
+# Dependencies
+RUN cp /dev/null /etc/apt/sources.list.d/ubuntu.sources
+RUN printf '%s\n' \
+  'Types: deb deb-src' \
+  'URIs: http://archive.ubuntu.com/ubuntu/' \
+  'Suites: noble noble-updates noble-backports' \
+  'Components: main universe restricted multiverse' \
+  'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' \
+  '' \
+  'Types: deb deb-src' \
+  'URIs: http://security.ubuntu.com/ubuntu/' \
+  'Suites: noble-security' \
+  'Components: main universe restricted multiverse' \
+  'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' \
+  > /etc/apt/sources.list.d/ubuntu.sources
+
+# Install QEMU/KVM + Mesa/Vulkan and clean up apt lists to keep image small
+RUN apt-get update && \
+    apt-get install -y \
+      sudo vim \
+      virtiofsd libcap-ng-dev libseccomp-dev \
+      qemu-system-x86 qemu-system-gui qemu-utils qemu-kvm \
+      libvirt-daemon-system libvirt-clients \
+      bridge-utils iproute2 iputils-ping ca-certificates \
+      curl xdotool mesa-utils libgl1-mesa-dri libdrm2 \
+      lib32gcc-s1 \
+      libvulkan1 \
+      build-essential \
+      autoconf bison gawk meson nasm pkg-config python3 python3-click \
+      python3-jinja2 python3-pyelftools python3-tomli python3-tomli-w \
+      python3-voluptuous wget \
+      git ninja-build python3-pip \
+      libglib2.0-dev libpixman-1-dev zlib1g-dev libfdt-dev \
+      libsdl2-2.0-0=2.30.0+dfsg-1build3 \
+      libsdl2-dev=2.30.0+dfsg-1build3 \
+      libgtk-3-dev libusb-1.0-0-dev libaio-dev libnuma-dev \
+      libcap-ng-dev libseccomp-dev libslirp-dev libvirglrenderer-dev \
+      libepoxy-dev libsnappy-dev liblz4-dev libbz2-dev libssh-dev \
+      libattr1-dev liblzma-dev \
+      libxcb-dri3-dev libxcb-present-dev libxcb-sync-dev libx11-xcb-dev \
+      libxshmfence-dev flex python3-psutil socat libopenal1 libvorbisfile3 build-essential cmake pkg-config \
+      libopenal1 libopenal-dev libvorbisfile3 libvorbis-dev libogg-dev libsnappy1v5 \
+      libsqlite3-dev luajit libluajit-5.1-dev libgmp-dev libcurl4-openssl-dev \
+      libncursesw5-dev llvm-18 llvm-18-dev llvm-18-tools clang-18 libclang-18-dev \
+      && \
+      apt-get build-dep -y mesa && \
+      apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Keep application install scripts from upgrading SDL2 back to noble-updates.
+RUN printf '%s\n' \
+      'Package: libsdl2-2.0-0 libsdl2-dev' \
+      'Pin: version 2.30.0+dfsg-1build3' \
+      'Pin-Priority: 1001' \
+      > /etc/apt/preferences.d/libsdl2 && \
+    apt-mark hold libsdl2-2.0-0 libsdl2-dev
+
+# Tool layer: controlled by build-arg
+ARG TOOL_PACKAGES=""
+RUN if [ -n "$TOOL_PACKAGES" ]; then \
+      apt-get update && \
+      apt-get install -y --no-install-recommends $TOOL_PACKAGES && \
+      rm -rf /var/lib/apt/lists/* ; \
+    else \
+      echo "No extra tool packages requested"; \
+    fi
+
+# Create a marker file (optional)
+RUN touch /var/lib/qemu-installed
+
+# create non-root user if you want (optional)
+# RUN useradd -ms /bin/bash dev && usermod -aG video dev
+
+WORKDIR /root
+
+# Default to interactive shell
+CMD [ "bash" ]

@@ -1,0 +1,26 @@
+# Copyright (C) 2023 Gramine contributors
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Hello World manifest file example
+
+libos.entrypoint = "/helloworld"
+loader.log_level = "{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib"
+loader.env.HOME = "/home/adil"
+loader.env.USER = "adil"
+loader.env.DISPLAY="2:0"
+# loader.env.Xauthority = "/home/gramine/.Xauthority"
+
+loader.insecure__use_host_env = true
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { type = "untrusted_shm", path = "/tmp/x11-unix", uri = "dev:/tmp/.X11-unix/" },
+  { path = "/usr/lib/libx11ipc.so", uri = "file:/home/adil/Projects/gramine-tdx-testing/scripts/x11-shm-proxy/client/libx11ipc.so" },
+  # { path = "/usr/lib/libX11.so.6", uri = "file:/usr/lib/libX11.so.6" },
+  { path = "/usr/lib/libxcb.so.1", uri = "file:/usr/lib/libxcb.so.1" },
+  { path = "/usr/lib/libXau.so.6", uri = "file:/usr/lib/libXau.so.6" },
+  { path = "/usr/lib/libXdmcp.so.6", uri = "file:/usr/lib/libXdmcp.so.6" },
+  { path = "/helloworld", uri = "file:helloworld" },
+]

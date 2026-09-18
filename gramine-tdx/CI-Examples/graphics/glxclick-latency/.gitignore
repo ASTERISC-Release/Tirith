@@ -1,0 +1,6 @@
+/click_latency
+/glxclick-latency
+/*.o
+/glxclick-latency.manifest
+/results/
+/__pycache__/

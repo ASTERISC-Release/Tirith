@@ -1,0 +1,65 @@
+version: "5.7.1"
+
+# QEMU must join the host IPC namespace so Steam and a Gramine guest can share
+# the SysV semaphore used by Steam's local client protocol.
+x-podman:
+  in_pod: false
+
+services:
+  ubuntu-gpu-kvm:
+    build:
+      context: .
+      dockerfile: Containerfile
+      args:
+        TOOL_PACKAGES: "x11-apps rustc cargo python3-jsonschema"
+    container_name: ubuntu-gpu-kvm
+    network_mode: host
+    ipc: host
+    # Steam's local IPC identifies game clients by PID. The host namespace lets
+    # desktop Steam inspect a containerized TF2 process by the advertised PID.
+    pid: host
+    tty: true
+    stdin_open: true
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - QEMU_AUDIO_DRV=none
+      - TF2_NATIVE_HOME=${HOME}
+    devices:
+      - "/dev/dri:/dev/dri"
+      - "/dev/kvm:/dev/kvm"
+      - "/dev/net/tun:/dev/net/tun"
+      - "/dev/vhost-net:/dev/vhost-net"
+      - "/dev/vhost-vsock:/dev/vhost-vsock"
+      - "/dev/fuse:/dev/fuse"
+    group_add:
+      - "video"
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:ro"
+      - "/sys/module/kvm:/sys/module/kvm:ro"
+      - "${REPO_DIR}:/root/${REPO}:rw"
+      - "${SSH_DIR}:/root/.ssh:rw"
+      - "${CACHE_DIR}:/root/.cache:rw"
+      # Keep the custom Mesa install across container rebuilds. The source and
+      # build tree live in the repository, but meson installs to /opt/mesa.
+      - "${MESA_DIR}:/opt/mesa:rw"
+      # Keep the original host paths because ~/.steam contains absolute symlinks.
+      # This exposes the logged-in Steam session to the privileged container.
+      - "${HOME}/.steam:${HOME}/.steam:rw"
+      - "${HOME}/.local/share/Steam:${HOME}/.local/share/Steam:ro"
+    security_opt:
+      - "label=disable"
+      - "apparmor=unconfined"
+      - "seccomp=unconfined"
+    restart: unless-stopped
+    command: bash -lc "echo 'Container ready.'; exec bash"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

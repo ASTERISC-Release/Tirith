@@ -1,0 +1,67 @@
+# Copyright (C) 2023 Gramine contributors
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Hello World manifest file example
+
+libos.entrypoint = "/helloworld"
+# loader.log_level = "{{ log_level }}"
+# loader.log_level = "debug"
+# loader.log_level = "trace"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib"
+loader.env.HOME = "/home/adil"
+loader.env.USER = "adil"
+loader.env.DISPLAY="2:0"
+loader.env.IVSHMEM_GRAMINE_VM="1"
+# loader.env.SDL_VIDEODRIVER="x11"
+loader.env.SDL_VIDEO_X11_FORCE_EGL="0"
+loader.env.LIBGL_ALWAYS_INDIRECT="1"
+loader.env.HOST_SDL_WINDOW="1"
+
+# loader.env.SDL_VIDEODRIVER="x11"
+loader.env.SDL_VIDEO_X11_DEBUG="1"
+loader.env.SDL_VIDEO_X11_XINERAMA="0"
+loader.env.SDL_VIDEO_X11_XRANDR="0"
+loader.env.SDL_VIDEO_X11_XVIDMODE="0"
+loader.env.SDL_VIDEO_X11_XSHAPE="0"
+loader.env.SDL_VIDEO_X11_XINPUT2="0"
+loader.env.SDL_VIDEO_X11_SUPPORTS_GENERIC_EVENTS="0"
+loader.env.SDL_VIDEO_X11_HAS_XKBKEYCODETOKEYSYM="0"
+loader.env.SDL_RENDER_DRIVER="software"
+loader.env.SDL_VIDEO_OPENGL="0"
+loader.env.SDL_VIDEO_OPENGL_ES="0"
+loader.env.SDL_VIDEO_OPENGL_ES2="0"
+# loader.env.SDL_VIDEO_X11_FORCE_EGL="0"
+loader.env.SDL_VIDEO_X11_WMCLASS="simple"
+loader.env.SDL_VIDEO_X11_XCALIBRATE="0"
+loader.env.SDL_AUDIODRIVER="dummy"
+
+#loader.env.SDL_VIDEO_DRIVER="x11"
+# loader.env.SDL_VIDEODRIVER="dummy"
+#loader.env.SDL_VIDEO_DRIVER="dummy"
+# loader.env.SDL_IM_MODULE="none"
+# loader.env.LIBGL_ALWAYS_SOFTWARE="1"
+#loader.env.SGL_NETWORK_ENDPOINT="192.168.12.112:6000"
+# loader.env.Xauthority = "/home/gramine/.Xauthority"
+
+# loader.env.SGL_NETWORK_ENDPOINT="0.0.0.2:11111"
+# loader.env.SGL_NET_OVER_SHARED="0.0.0.2:11111"
+
+loader.insecure__use_host_env = true
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr/lib/", uri = "dev:/usr/lib/" },
+  { path = "/usr/lib/libGL.so.1", uri = "file:/home/adil/Projects/gramine-tdx-testing/sharedgl/build/libGL.so.1" },
+  # { path = "/usr/lib/libSDL2-2.0.so.0", uri = "file:/home/adil/Projects/gramine-tdx-testing/gramine-tdx/CI-Examples/graphics/common/SDL/build/libSDL2-2.0.so.0" },
+  # { path = "/usr/lib/libSDL3.so.0", uri = "file:/usr/lib/libSDL3.so.0"},
+  { path = "/helloworld", uri = "file:helloworld" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:helloworld",
+  "file:{{ gramine.runtimedir() }}/",
+]

@@ -1,0 +1,33 @@
+# Copyright (C) 2023 Gramine contributors
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Hello World manifest file example
+
+libos.entrypoint = "/usr/bin/xclock"
+loader.log_level = "{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+loader.env.HOME = "/home/adil"
+loader.env.USER = "adil"
+loader.env.DISPLAY="2:0"
+loader.env.IVSHMEM_GRAMINE_VM="1"
+
+loader.insecure__use_cmdline_argv = true
+loader.insecure__use_host_env = true
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr/lib/", uri = "dev:/usr/lib/" },
+  { path = "/usr/lib/x86_64-linux-gnu/", uri = "dev:/usr/lib/x86_64-linux-gnu/" },
+  { path = "/lib/x86_64-linux-gnu/", uri = "dev:/lib/x86_64-linux-gnu/" },
+  # { path = "/usr/lib/libGL.so.1", uri = "file:/home/adil/Projects/gramine-tdx-testing/sharedgl/build/libGL.so.1" },
+  { path = "/usr/bin/xclock", uri = "file:/usr/bin/xclock" },
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:glxgears",
+  "file:{{ gramine.runtimedir() }}/",
+]

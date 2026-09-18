@@ -1,0 +1,9 @@
+/game/
+/.steamcmd/
+/home/*
+!/home/.gitkeep
+/tf2.manifest
+/tf2.manifest.sgx
+/tf2.sig
+/tf2.token
+/benchmark-results/
