@@ -248,8 +248,6 @@ static void __attribute__((constructor)) glximpl_init(void) {
 }
 #undef ARR_SIZE
 
-static _Thread_local GLuint current_fbo = 0;
-
 static void gpu_memory_sanity_check(void) {
     if (gpu_mem_checked)
         return;
@@ -359,45 +357,34 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 
     if (framebuffer == 0) {
         /* App is binding the default framebuffer, redirect it to our per-buffer FBO */
-        GLuint redirect_fbo = get_redirect_fbo(cur);
-        if (!redirect_fbo)
-            redirect_fbo = bufs[cur].fbo;
-        if (current_fbo != redirect_fbo) {
-            if (!in_gramine_vm) {
-                cur = query_idle_fence_buffer(bufs, cur);
+        if (!in_gramine_vm) {
+            cur = query_idle_fence_buffer(bufs, cur);
 #ifdef IDLE_FENCE_WAIT
-            } else {
-                /* Ask the host which redirected buffer is no longer in use.
-                 * This path is omitted entirely in the default build, where
-                 * query_idle_fence_buffer() is also a no-op. */
-                long _offset = acquire_libos_lock();
-                comm_page_t* c = comm_page(_offset);
-                c->p1 = (uint64_t)bufs;
-                c->p2 = (uint64_t)cur;
-                __sync_synchronize();
+        } else {
+            /* Ask the host which redirected buffer is no longer in use.
+             * This path is omitted entirely in the default build, where
+             * query_idle_fence_buffer() is also a no-op. */
+            long _offset = acquire_libos_lock();
+            comm_page_t* c = comm_page(_offset);
+            c->p1 = (uint64_t)bufs;
+            c->p2 = (uint64_t)cur;
+            __sync_synchronize();
 
-                c->req_bit = X11_IDLE_FENCE_BUFFER;
-                comm_sync_notify(c);
-                cur = c->ret;
-                relinquish_libos_lock(_offset);
+            c->req_bit = X11_IDLE_FENCE_BUFFER;
+            comm_sync_notify(c);
+            cur = c->ret;
+            relinquish_libos_lock(_offset);
 #endif
-            }
-
-            redirect_fbo = get_redirect_fbo(cur);
-            if (!redirect_fbo)
-                redirect_fbo = bufs[cur].fbo;
-            glBindFramebuffer_ptr(target, redirect_fbo);
-            current_fbo = redirect_fbo;
         }
 
-        return;
+        framebuffer = get_redirect_fbo(cur);
+        if (!framebuffer)
+            framebuffer = bufs[cur].fbo;
     }
 
-    if (current_fbo != framebuffer) {
-        glBindFramebuffer_ptr(target, framebuffer);
-        current_fbo = framebuffer;
-    }
-
+    /* Deleting a bound FBO resets the driver's binding, and read/draw targets
+     * have independent bindings. A cached object name cannot track either. */
+    glBindFramebuffer_ptr(target, framebuffer);
 }
 
 /* Defined in xcb.c */
@@ -470,7 +457,6 @@ void glXSwapBuffers(Display *dpy, GLXDrawable drawable) {
         glActiveTexture((GLenum)active_texture);
         glBindTexture(GL_TEXTURE_2D, (GLuint)texture_binding);
         glBindRenderbuffer_ptr(GL_RENDERBUFFER, (GLuint)renderbuffer_binding);
-        current_fbo = ~(GLuint)0;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         fprintf(stderr, "[glx] rebuilt redirect buffers at %dx%d after drawable resize\n",
                 win_width, win_height);
@@ -564,9 +550,7 @@ Bool glXMakeCurrent(Display *dpy, GLXDrawable drawable, GLXContext ctx1) {
 
     /* Setting up EGL */
     setup_egl();
-    /* FBO object names are context-local and are commonly reused numerically by Mesa. Force the
-     * default-framebuffer redirect to bind the FBO belonging to the context made current above. */
-    current_fbo = ~(GLuint)0;
+    /* Bind the redirect FBO belonging to the context made current above. */
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     // gpu_memory_sanity_check();
 

@@ -2,9 +2,6 @@
 # Download the official native Linux TF2 client with SteamCMD.
 set -euo pipefail
 
-sudo apt update
-sudo apt install curl
-
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 STEAMCMD_DIR="${STEAMCMD_DIR:-$SCRIPT_DIR/.steamcmd}"
 TF2_DIR="${TF2_DIR:-$SCRIPT_DIR/game}"
@@ -12,12 +9,14 @@ STEAMCMD_URL="https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.ta
 
 usage() {
     cat >&2 <<'EOF'
-usage: ./setup-tf2.sh [STEAM_USERNAME | --anonymous]
+usage: ./setup-tf2.sh [STEAM_USERNAME | --anonymous | --deps-only]
 
 With a username, SteamCMD prompts for the password and Steam Guard code; secrets
 are not accepted as command-line arguments. --anonymous is retained as a depot
 permission diagnostic, but Valve currently serves only TF2's 806 KiB bootstrap
 depot to anonymous SteamCMD sessions, not the Linux client or game assets.
+--deps-only installs runtime dependencies without downloading the game or
+logging into SteamCMD.
 EOF
     exit 2
 }
@@ -29,6 +28,9 @@ case "${1:-}" in
     --anonymous|"")
         STEAM_LOGIN=(anonymous)
         ;;
+    --deps-only)
+        STEAM_LOGIN=()
+        ;;
     --*)
         usage
         ;;
@@ -36,6 +38,15 @@ case "${1:-}" in
         STEAM_LOGIN=("$1")
         ;;
 esac
+
+sudo apt update
+sudo apt install -y curl locales
+# TF2 requests this locale explicitly, even when the container defaults to C.UTF-8.
+sudo locale-gen en_US.UTF-8
+
+if [[ "${1:-}" == "--deps-only" ]]; then
+    exit 0
+fi
 
 mkdir -p "$STEAMCMD_DIR" "$TF2_DIR"
 

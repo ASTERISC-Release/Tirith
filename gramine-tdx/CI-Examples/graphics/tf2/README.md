@@ -18,6 +18,9 @@ From this directory, run:
 ./setup-tf2.sh STEAM_USERNAME
 ```
 
+The setup installs `curl` and `locales` and generates `en_US.UTF-8`, which TF2
+requests during startup.
+
 SteamCMD prompts for the password and Steam Guard code. Do not put a password
 on the command line. SteamCMD may cache local authentication state under the
 ignored `.steamcmd/` directory, but no credentials are placed in tracked files.
