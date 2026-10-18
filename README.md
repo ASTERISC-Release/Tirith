@@ -25,45 +25,45 @@ This README assumes you have Arch Linux installed with a Wayland window manager.
 
 1. Please install podman (a Linux container environment):
 
-    ```
+    ```bash
     host> sudo pacman -Syu podman podman-compose
     host> systemctl --user enable --now podman.socket
     ```
 
 2. Build and execute the podman container (~4-5 minutes)
   
-    ```
+    ```bash
     host> cd docker
     host> ./build.sh
-    host> ./exec.sh   # opens the container shell
+    host> ./exec.sh     # opens the container shell
     ```
 
 3. Build and install all the required toolchain inside the container environment 
 
     - QEMU (~1-2 minutes):
 
-      ```
+      ```bash
       container> cd Tirith/qemu
       container> ./qemu-install.sh
       ```
 
     - gramine-tdx (~3-5 minutes): 
 
-      ```
+      ```bash
       container> cd Tirith/gramine-tdx
       container> ./gramine-install.sh
       ```
 
     - mesa3d (~3-5 minutes):
 
-      ```
+      ```bash
       container> cd Tirith/mesa3d
       container> ./mesa-install.sh
       ```
 
     - OpenGL-EGL Translation Library (<1 minute):
 
-      ```
+      ```bash
       container> cd Tirith/egl-redirect
       container> make
       ```
@@ -72,34 +72,47 @@ This README assumes you have Arch Linux installed with a Wayland window manager.
 
 To redirect graphics onto the host environment, we must **disable xhost authentication and enable display forwarding**.
 
-- In a terminal shell on the host, please **disable xhost authentication**: 
+- In a separate terminal shell on the host, please **disable xhost authentication**: 
 
   ```
   host> cd Tirith/scripts
   host> xhost +
   ```
 
-  *Note: The system will be updated later to avoid disabling authentication.*
+  *Note: This is just for testing. The system will be updated later to avoid disabling authentication.*
 
 - Then, **enable display forwarding**: 
 
   - Check your active display with `echo $DISPLAY`:
-    * If `:0`, run `./host-proxy.sh` (targets `/tmp/.X11-unix/X0`).
-    * If `:1`, run `./host-proxy-xwayland.sh` (targets `/tmp/.X11-unix/X1`).
+    * If `:0`, run: 
+    
+    ```bash
+    host> ./host-proxy.sh             # targets /tmp/.X11-unix/X0
+    ```
+
+    * If `:1`, run:
+    
+    ```bash
+    host> ./host-proxy-xwayland.sh    # targets /tmp/.X11-unix/X1
+    ```
 
 
 **Important Notes**
 
 - The proxy must be left running for the duration of the follow sections.
 - FPS data will in general be output to the terminal every 1 minute, with the exception of Supertuxkart which will print only at the end of the benchmark.
-- After the tests are done, please execute `xhost -` to re-enable authentication.
+- After the tests are done, please re-enabled xhost authentication 
+
+  ```
+  host> xhost -
+  ```
 
 #### Troubleshooting
 * **`socat E read(6, ...): Connection reset by peer`**:
   * Ensure `xhost +` has been run on the host.
   * Alternatively, run socat directly matching your active socket:
     ```bash
-    sudo socat VSOCK-LISTEN:6000,fork,reuseaddr UNIX-CONNECT:/tmp/.X11-unix/X1
+    host> sudo socat VSOCK-LISTEN:6000,fork,reuseaddr UNIX-CONNECT:/tmp/.X11-unix/X1    # substitute with X0 based if DISPLAY=:0
     ```
 * **`Authorization required / x11 not available`**:
   * Run `xhost +` on the host to disable X11 restrictions.
@@ -112,14 +125,14 @@ Benchmarks like Glxgears and video games are run in the container environment (i
 
 Compile the benchmark and build the required manifest.
 
-```
+```bash
 container> cd Tirith/gramine-tdx/CI-Examples/graphics/glxgears-with-lows
 container> make
 ```
 
 Execute the benchmark; a window with spinning gears will appear and it will print average/1%-low FPS every minute
 
-```
+```bash
 container> gramine-vm glxgears
 ```
 
@@ -127,14 +140,14 @@ container> gramine-vm glxgears
 
 Download the game, compile it, and build the required manifest.
 
-```
+```bash
 container> cd Tirith/gramine-tdx/CI-Examples/graphics/quake2
 container> ./setup-quake.sh
 ```
 
 Then, execute the game inside a gramine vm:
 
-```
+```bash
 container> make
 container> gramine-vm quake2
 ```
@@ -149,14 +162,14 @@ During gameplay, you can
 
 Download the game, compile it, and build the required manifest.
 
-```
+```bash
 container> cd Tirith/gramine-tdx/CI-Examples/graphics/supertuxkart
 container> ./install-stx.sh
 ```
 
 Then, execute the game inside a gramine vm:
 
-```
+```bash
 container> make
 container> gramine-vm supertuxkart
 ```
@@ -170,12 +183,12 @@ During gameplay, you can
 
 Download the game, compile it, and build the required manifest.
 
-```
+```bash
 container> cd Tirith/gramine-tdx/CI-Examples/graphics/minetest
 container> ./setup-minetest.sh
 ```
 
-```
+```bash
 container> make
 container> gramine-vm minetest
 ```
@@ -202,20 +215,20 @@ account.
 
 First, please install steam and log-in to your account. Then,
 
-```
+```bash
 container> cd Tirith/gramine-tdx/CI-Examples/graphics/tf2 
 container> ./setup-tf2.sh <STEAM_USERNAME>
 ```
 
 With the desktop Steam client running, execute the game natively first (to verify): 
 
-```
+```bash
 container> ./run-native.sh
 ```
 
 If the game works correctly, you can execute the game with Tirith:
 
-```
+```bash
 container> make
 container> make run
 ```
@@ -223,3 +236,14 @@ container> make run
 See `gramine-tdx/CI-Examples/graphics/tf2/README.md` for alternate Steam
 library paths, tracing, current limitations, and the benchmark plan.
 
+
+## License
+
+Tirith's original code is released under the [GNU General Public License v3.0](LICENSE).
+
+Bundled third-party components keep their own licenses; see the license files in each directory:
+
+- `qemu/`: see [`qemu/LICENSE`](qemu/LICENSE) and [`qemu/COPYING`](qemu/COPYING)
+- `gramine-tdx/`: see [`gramine-tdx/LICENSE.txt`](gramine-tdx/LICENSE.txt) (LGPL-3.0)
+- `mesa3d/`: see [`mesa3d/docs/license.rst`](mesa3d/docs/license.rst)
+- `sharedgl/`: see [`sharedgl/LICENSE`](sharedgl/LICENSE) (MIT)
