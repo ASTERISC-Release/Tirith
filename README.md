@@ -1,10 +1,10 @@
-# Tirith (CCS'26)
+# Tirith Release Artifact (ACM CCS'26)
 
 This repository contains the software artifact for the CCS'26 Paper: "You Shall Not Pass into Ring-0! A User Privacy-Friendly Anti-Cheat Architecture for Personal Computers".
 
 The paper introduces a VM-based video game framework, which we call Tirith.
 
-## Requirements
+## System Requirements
 
 Tirith is optimized to execute on AMD x86_64 CPUs and discrete GPUs. Our evaluation system had the following specifications:
 
@@ -52,6 +52,7 @@ This README assumes you have Arch Linux installed with a Wayland window manager.
       ```
       container> cd Tirith/gramine-tdx
       container> ./gramine-install.sh
+      ```
 
     - mesa3d (~3-5 minutes):
 
@@ -69,9 +70,9 @@ This README assumes you have Arch Linux installed with a Wayland window manager.
 
 ## Window Forwarding Setup 
 
-To redirect graphics onto the host environment, we must **disable xhost authentication and enable forwarding**.
+To redirect graphics onto the host environment, we must **disable xhost authentication and enable display forwarding**.
 
-- In a terminal shell outside of the container environment, please **disable xhost authentication**: 
+- In a terminal shell on the host, please **disable xhost authentication**: 
 
   ```
   host> cd Tirith/scripts
@@ -80,7 +81,7 @@ To redirect graphics onto the host environment, we must **disable xhost authenti
 
   *Note: The system will be updated later to avoid disabling authentication.*
 
-- Then, enable **xhost forwarding**. 
+- Then, **enable display forwarding**: 
 
   - Check your active display with `echo $DISPLAY`:
     * If `:0`, run `./host-proxy.sh` (targets `/tmp/.X11-unix/X0`).
@@ -91,6 +92,7 @@ To redirect graphics onto the host environment, we must **disable xhost authenti
 
 - The proxy must be left running for the duration of the follow sections.
 - FPS data will in general be output to the terminal every 1 minute, with the exception of Supertuxkart which will print only at the end of the benchmark.
+- After the tests are done, please execute `xhost -` to re-enable authentication.
 
 #### Troubleshooting
 * **`socat E read(6, ...): Connection reset by peer`**:
@@ -130,10 +132,11 @@ container> cd Tirith/gramine-tdx/CI-Examples/graphics/quake2
 container> ./setup-quake.sh
 ```
 
-Then, execute the game normally:
+Then, execute the game inside a gramine vm:
 
 ```
-container> ./run.sh 0 1
+container> make
+container> gramine-vm quake2
 ```
 
 During gameplay, you can 
@@ -142,7 +145,7 @@ During gameplay, you can
 2. Increase the graphics options to the maximums (optionally).
 3. Close the game with **esc**, navigating to quit and hitting **y**.
 
-### B. Supertuxkart
+### C. Supertuxkart
 
 Download the game, compile it, and build the required manifest.
 
@@ -151,17 +154,18 @@ container> cd Tirith/gramine-tdx/CI-Examples/graphics/supertuxkart
 container> ./install-stx.sh
 ```
 
-Then, execute the game normally:
+Then, execute the game inside a gramine vm:
 
 ```
-container> ./run.sh 0 1
+container> make
+container> gramine-vm supertuxkart
 ```
 
 During gameplay, you can 
 - Skip through the popups and click the wrench at the bottom.
 - Update the graphics level to the maximum and ensure the FPS cap is changed from vsync to 1000.
 
-### C. Minetest
+### D. Minetest
 
 
 Download the game, compile it, and build the required manifest.
@@ -171,10 +175,9 @@ container> cd Tirith/gramine-tdx/CI-Examples/graphics/minetest
 container> ./setup-minetest.sh
 ```
 
-Then, execute the game normally:
-
 ```
-container> ./run.sh 0 1
+container> make
+container> gramine-vm minetest
 ```
 
 To open a new in-game environment (also called "world"),
@@ -189,10 +192,9 @@ During gameplay, you can:
 
 - Hit **esc** to open the menu, navigate with arrow keys and **enter** to the graphics settings.
 - Increase the graphics options to the maximums.
-- Close the game and run the command below to use Tirith.
 
 
-### D. Team Fortress 2 (Optional/Advanced)
+### E. Team Fortress 2 (Optional/Advanced)
 
 TF2 uses its native 64-bit Linux client and an offline `cp_badlands` bot
 workload. Installation requires claiming the free TF2 license with a Steam
@@ -205,10 +207,17 @@ container> cd Tirith/gramine-tdx/CI-Examples/graphics/tf2
 container> ./setup-tf2.sh <STEAM_USERNAME>
 ```
 
-With the desktop Steam client running, execute the game: 
+With the desktop Steam client running, execute the game natively first (to verify): 
 
 ```
 container> ./run-native.sh
+```
+
+If the game works correctly, you can execute the game with Tirith:
+
+```
+container> make
+container> make run
 ```
 
 See `gramine-tdx/CI-Examples/graphics/tf2/README.md` for alternate Steam
