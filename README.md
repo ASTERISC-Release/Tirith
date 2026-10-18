@@ -8,7 +8,12 @@ Kernel: Linux 6.19.11-arch1-1
 CPU:    AMD Ryzen 5 5600X (12)
 GPU:    AMD Radeon RX 6950 XT [Discrete]
 Memory: 32 GiB
+Window Manager: Labwc
 ```
+
+### Required Software Disclaimer
+- This README assumes you have Arch Linux installed with a Wayland window manager.
+  - Specifically, development and evaluation used [Labwc](https://labwc.github.io/)
 
 Other configurations ***may*** work, however are untested and may result in large performance degradation including:
 - Any non-AMD CPU
@@ -16,14 +21,7 @@ Other configurations ***may*** work, however are untested and may result in larg
 
 ## Prerequisites
 
-Install podman (a docker alternative) on your Linux environment
-
-### Ubuntu (20.04+, 22.04+, 24.04+)
-
-```
-sudo apt update
-sudo --now podman.socket
-```
+Install podman (a docker alternative) on your Arch Linux environment
 
 ### Arch Linux
 
@@ -79,7 +77,7 @@ In a separate terminal outside of the docker environment:
 `xhost +`
 
 *and then run*
-`./host-proxy-xwayland.sh` **or** `./host-proxy.sh` depending on if your system is using wayland.
+`./host-proxy-xwayland.sh` **or** `./host-proxy.sh` depending on if your system is using wayland *(x11 untested, use wayland)*.
 
 
 ### NOTE
@@ -103,7 +101,7 @@ In a separate terminal outside of the docker environment:
 ### Glxgears
 *build*
 
-`cd <repo>/gramine-tdk/CI-Examples/graphics/glxgears-with-lows && make`
+`cd <repo>/gramine-tdx/CI-Examples/graphics/glxgears-with-lows && make`
 
 *run*
 `gramine-vm glxgears`
@@ -112,7 +110,7 @@ In a separate terminal outside of the docker environment:
 ### Quake 2
 *build*
 
-`cd <repo>/gramine-tdk/CI-Examples/graphics/quake2 && ./setup-quake.sh`
+`cd <repo>/gramine-tdx/CI-Examples/graphics/quake2 && ./setup-quake.sh`
 
 *in-game setup*
 1. Open the game normally with `./run.sh 0 1`.
@@ -127,7 +125,7 @@ In a separate terminal outside of the docker environment:
 ### Supertuxkart
 *build*
 
-`cd <repo>/gramine-tdk/CI-Examples/graphics/supertuxkart && ./install-stx.sh`
+`cd <repo>/gramine-tdx/CI-Examples/graphics/supertuxkart && ./install-stx.sh`
 
 *in-game setup*
 1. Open the game normally with `./run.sh 0 1`.
@@ -148,7 +146,7 @@ In a separate terminal outside of the docker environment:
 
 *build*
 
-`cd <repo>/gramine-tdk/CI-Examples/graphics/minetest && ./setup-minetest.sh`
+`cd <repo>/gramine-tdx/CI-Examples/graphics/minetest && ./setup-minetest.sh`
 
 *run*
 
