@@ -232,6 +232,7 @@ If the game works correctly, you can execute the game with Tirith:
 container> make
 container> make run
 ```
+*Note that the mouse sensitivity is set to 0 for ignoring accidental inputs during benchmarking, you can increase it in the ingame settings *(<esc> -> gear icon)**
 
 See `gramine-tdx/CI-Examples/graphics/tf2/README.md` for alternate Steam
 library paths, tracing, current limitations, and the benchmark plan.
