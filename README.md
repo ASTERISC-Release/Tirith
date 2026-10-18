@@ -1,96 +1,100 @@
-# Gramine Library OS for Running Games
+# Tirith (CCS'26)
 
+This repository contains the software artifact for the CCS'26 Paper: "You Shall Not Pass into Ring-0! A User Privacy-Friendly Anti-Cheat Architecture for Personal Computers".
 
-Tirith was evaluated with these system specifications
-```
-OS:     Arch Linux x86_64
-Kernel: Linux 6.19.11-arch1-1
-CPU:    AMD Ryzen 5 5600X (12)
-GPU:    AMD Radeon RX 6950 XT [Discrete]
-Memory: 32 GiB
-Window Manager: Labwc
-```
+The paper introduces a VM-based video game framework, which we call Tirith.
 
-### Required Software Disclaimer
-- This README assumes you have Arch Linux installed with a Wayland window manager.
-  - Specifically, development and evaluation used [Labwc](https://labwc.github.io/)
+## Requirements
 
-Other configurations ***may*** work, however are untested and may result in large performance degradation including:
-- Any non-AMD CPU
-- Any GPU other than a discrete AMD GPU
-
-## Prerequisites
-
-Install podman (a docker alternative) on your Arch Linux environment
-
-### Arch Linux
+Tirith is optimized to execute on AMD x86_64 CPUs and discrete GPUs. Our evaluation system had the following specifications:
 
 ```
-sudo pacman -Syu podman podman-compose
-systemctl --user enable --now podman.socket
+  OS:     Arch Linux x86_64
+  Kernel: Linux 6.19.11-arch1-1
+  CPU:    AMD Ryzen 5 5600X (12)
+  GPU:    AMD Radeon RX 6950 XT [Discrete]
+  Memory: 32 GiB
+  Window Manager: Labwc
 ```
 
+Note that other Intel x86_64 configurations work, but they are largely unoptimized. In particular, the system's functionality has been evaluated on an Intel x86_64 CPU (i9-12900k) and an Intel integrated GPU (Intel UHD-770).
 
-## Getting Started
+This README assumes you have Arch Linux installed with a Wayland window manager. Development and evaluation used [Labwc](https://labwc.github.io/), but other wayland environments also work.
 
-1. Build and enter the podman container
-  `cd docker && ./build.sh`
-  `./exec.sh`
+## System Build Instructions
 
-2. Build the required toolchain inside the container's shell
-
-  - QEMU:
+1. Please install podman (a Linux container environment):
 
     ```
-    cd <repo>/qemu
-    ./qemu-install.sh
+    host> sudo pacman -Syu podman podman-compose
+    host> systemctl --user enable --now podman.socket
     ```
 
-  - gramine-tdx: 
-
+2. Build and execute the podman container (~4-5 minutes)
+  
     ```
-    cd <repo>/gramine-tdx
-    ./gramine-install.sh
-
-  - mesa3d:
-
-    ```
-    cd <repo>/mesa3d
-    ./mesa-install.sh
+    host> cd docker
+    host> ./build.sh
+    host> ./exec.sh   # opens the container shell
     ```
 
-  - OpenGL-EGL Translation Library:
+3. Build and install all the required toolchain inside the container environment 
 
-    ```
-    cd <repo>/egl-redirect
-    make
-    ```
+    - QEMU (~1-2 minutes):
 
+      ```
+      container> cd Tirith/qemu
+      container> ./qemu-install.sh
+      ```
 
-## Running the Games and Glxgears
+    - gramine-tdx (~3-5 minutes): 
 
-### Initial setup for window forwarding
-In a separate terminal outside of the docker environment:
+      ```
+      container> cd Tirith/gramine-tdx
+      container> ./gramine-install.sh
 
-*Run*
-`cd <repo>/scripts`
-`xhost +`
+    - mesa3d (~3-5 minutes):
 
-*and then run*
-`./host-proxy-xwayland.sh` **or** `./host-proxy.sh` depending on if your system is using wayland *(x11 untested, use wayland)*.
+      ```
+      container> cd Tirith/mesa3d
+      container> ./mesa-install.sh
+      ```
 
+    - OpenGL-EGL Translation Library (<1 minute):
 
-### NOTE
-1. ***The proxy is required to run the games in Tirith, thus the script must be left running for the duration of the follow sections.***
-2. ***The rest of this section must be run in the docker environment.***
-3. ***FPS data will in general be output to the terminal every 1 minute, with the exception of Supertuxkart which will print only at the end of the benchmark.***
+      ```
+      container> cd Tirith/egl-redirect
+      container> make
+      ```
 
-#### Troubleshooting & Edge Cases
-* **`socat E read(6, ...): Connection reset by peer`**:
-  * Ensure `xhost +` has been run on the host.
-  * Check your active display with `echo $DISPLAY`:
+## Window Forwarding Setup 
+
+To redirect graphics onto the host environment, we must **disable xhost authentication and enable forwarding**.
+
+- In a terminal shell outside of the container environment, please **disable xhost authentication**: 
+
+  ```
+  host> cd Tirith/scripts
+  host> xhost +
+  ```
+
+  *Note: The system will be updated later to avoid disabling authentication.*
+
+- Then, enable **xhost forwarding**. 
+
+  - Check your active display with `echo $DISPLAY`:
     * If `:0`, run `./host-proxy.sh` (targets `/tmp/.X11-unix/X0`).
     * If `:1`, run `./host-proxy-xwayland.sh` (targets `/tmp/.X11-unix/X1`).
+
+
+**Important Notes**
+
+- The proxy must be left running for the duration of the follow sections.
+- FPS data will in general be output to the terminal every 1 minute, with the exception of Supertuxkart which will print only at the end of the benchmark.
+
+#### Troubleshooting
+* **`socat E read(6, ...): Connection reset by peer`**:
+  * Ensure `xhost +` has been run on the host.
   * Alternatively, run socat directly matching your active socket:
     ```bash
     sudo socat VSOCK-LISTEN:6000,fork,reuseaddr UNIX-CONNECT:/tmp/.X11-unix/X1
@@ -98,99 +102,115 @@ In a separate terminal outside of the docker environment:
 * **`Authorization required / x11 not available`**:
   * Run `xhost +` on the host to disable X11 restrictions.
 
-### Glxgears
-*build*
+## Graphical Benchmark and Games 
 
-`cd <repo>/gramine-tdx/CI-Examples/graphics/glxgears-with-lows && make`
+Benchmarks like Glxgears and video games are run in the container environment (i.e., `cd docker && ./exec.sh`).
 
-*run*
-`gramine-vm glxgears`
+### A. Glxgears 
+
+Compile the benchmark and build the required manifest.
+
+```
+container> cd Tirith/gramine-tdx/CI-Examples/graphics/glxgears-with-lows
+container> make
+```
+
+Execute the benchmark; a window with spinning gears will appear and it will print average/1%-low FPS every minute
+
+```
+container> gramine-vm glxgears
+```
+
+### B. Quake 2
+
+Download the game, compile it, and build the required manifest.
+
+```
+container> cd Tirith/gramine-tdx/CI-Examples/graphics/quake2
+container> ./setup-quake.sh
+```
+
+Then, execute the game normally:
+
+```
+container> ./run.sh 0 1
+```
+
+During gameplay, you can 
+
+1. Hit **esc** to open the menu, navigate with arrow keys and **enter** to the graphics settings.
+2. Increase the graphics options to the maximums (optionally).
+3. Close the game with **esc**, navigating to quit and hitting **y**.
+
+### B. Supertuxkart
+
+Download the game, compile it, and build the required manifest.
+
+```
+container> cd Tirith/gramine-tdx/CI-Examples/graphics/supertuxkart
+container> ./install-stx.sh
+```
+
+Then, execute the game normally:
+
+```
+container> ./run.sh 0 1
+```
+
+During gameplay, you can 
+- Skip through the popups and click the wrench at the bottom.
+- Update the graphics level to the maximum and ensure the FPS cap is changed from vsync to 1000.
+
+### C. Minetest
 
 
-### Quake 2
-*build*
+Download the game, compile it, and build the required manifest.
 
-`cd <repo>/gramine-tdx/CI-Examples/graphics/quake2 && ./setup-quake.sh`
+```
+container> cd Tirith/gramine-tdx/CI-Examples/graphics/minetest
+container> ./setup-minetest.sh
+```
 
-*in-game setup*
-1. Open the game normally with `./run.sh 0 1`.
-2. Hit <esc> to open the menu, navigate with arrow keys and <enter> to the graphics settings.
-3. Increase the graphics options to the maximums.
-4. Close the game with <esc>, navigating to quit and hitting <y> and run the command below to use Tirith.
+Then, execute the game normally:
 
-*run*
-`make && gramine-vm quake2`
+```
+container> ./run.sh 0 1
+```
 
+To open a new in-game environment (also called "world"),
 
-### Supertuxkart
-*build*
+- Click `New` on the main menu
+- Click create in the new screen.
+- Click Play Game.
 
-`cd <repo>/gramine-tdx/CI-Examples/graphics/supertuxkart && ./install-stx.sh`
+*On subsequent runs, the game should load your created world automatically.*
 
-*in-game setup*
-1. Open the game normally with `./run.sh 0 1`.
-2. Skip through the popups and click the wrench at the bottom.
-3. Update the graphics level to the maximum and ensure the FPS cap is changed from vsync to 1000.
-4. Close the game and run the command below to use Tirith.
+During gameplay, you can:
 
-*run*
-`make && gramine-vm supertuxkart`
+- Hit **esc** to open the menu, navigate with arrow keys and **enter** to the graphics settings.
+- Increase the graphics options to the maximums.
+- Close the game and run the command below to use Tirith.
 
 
-### Minetest
-*in-game setup*
-1. Open the game normally with `./run.sh 0 1`.
-2. Hit <esc> to open the menu, navigate with arrow keys and <enter> to the graphics settings.
-3. Increase the graphics options to the maximums.
-4. Close the game and run the command below to use Tirith.
-
-*build*
-
-`cd <repo>/gramine-tdx/CI-Examples/graphics/minetest && ./setup-minetest.sh`
-
-*run*
-
-`make && gramine-vm minetest`
-*in-game setup*
-1. Click `New` on the main menu
-2. Click create in the new screen.
-3. Click Play Game.
-**On subsequent runs, the game should load the correct world automatically.**
-
-### Team Fortress 2
+### D. Team Fortress 2 (Optional/Advanced)
 
 TF2 uses its native 64-bit Linux client and an offline `cp_badlands` bot
 workload. Installation requires claiming the free TF2 license with a Steam
-account; anonymous SteamCMD receives only the small bootstrap depot.
+account.
 
-*setup*
+First, please install steam and log-in to your account. Then,
 
-`cd <repo>/gramine-tdx/CI-Examples/graphics/tf2 && ./setup-tf2.sh STEAM_USERNAME`
+```
+container> cd Tirith/gramine-tdx/CI-Examples/graphics/tf2 
+container> ./setup-tf2.sh <STEAM_USERNAME>
+```
 
-*native/Podman baseline*
+With the desktop Steam client running, execute the game: 
 
-With the desktop Steam client running, execute `./run-native.sh` in the project Podman container.
-
-*run*
-
-`make && make run`
+```
+container> ./run-native.sh
+```
 
 See `gramine-tdx/CI-Examples/graphics/tf2/README.md` for alternate Steam
 library paths, tracing, current limitations, and the benchmark plan.
 
-
-
-
-## Some Relevant Files and Folders
-
-### Host side request handler
-`<repo>/qemu/util/sg-listener.c`
-`<repo>/qemu/include/qemu/sg.h`
-
-### OpenGL-EGL Translation Library
-`<repo>/egl-redirect` *excluding `latency_preload.c`*
-
-### Gramine modifications
-*The majority of modifications exist in:*
-`<repo>/gramine-tdx/libos/src/sys/`
-`<repo>/gramine-tdx/libos/include/libos_sg.h`
