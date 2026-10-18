@@ -12,25 +12,43 @@ libos.entrypoint = "/quake2_bin/release/quake2"
 loader.insecure__use_host_env = true
 # loader.log_level = "trace"
 # Loader environment overrides
-# loader.argv = [
-#    "+set", "cl_paused", "0",
-#    "+set", "cl_console", "0",
-#    "+set", "developer", "1",
-#    "+map", "demo2",
-#    "+set", "game", "baseq2",
-#    "+wait",
-#    "+wait",
-#    "+give", "all",
-#    "+noclip",
-#    "+set", "vid_width", "1920",
-# "+set", "vid_height", "1080",
-# "+set", "vid_fullscreen", "0"
-# ]
+#loader.argv = [
+#   "quake2",
+#   "+set", "cl_paused", "0",
+#   "+set", "cl_console", "0",
+#   "+set", "developer", "1",
+#   "+map", "demo2",
+#   "+set", "game", "baseq2",
+#   "+wait",
+#   "+wait",
+#   "+give", "all",
+#   "+noclip",
+#   "+set", "r_mode", "-1",
+#   "+set", "r_customwidth", "1920",
+#   "+set", "r_customheight", "1080",
+#   "+set", "vid_fullscreen", "0"
+#]
+
 
 loader.argv = [
-  "+vid_maxfps 999",
-  "+toggleconsole"
+   "quake2",
+   "+map", "demo2",
+   "+set", "game", "baseq2",
+   "+wait",
+   "+wait",
+   "+set", "r_mode", "-1",
+   "+set", "r_customwidth", "1920",
+   "+set", "r_customheight", "1080",
+   "+set", "vid_fullscreen", "0"
 ]
+
+   # "+toggleconsole"
+   # "+vid_maxfps 999",
+# loader.argv = [
+#    "+set", "vid_width", "1920",
+#    "+set", "vid_height", "1080",
+#    "+set", "vid_fullscreen", "0"
+#  ]
 
 loader.env.LD_LIBRARY_PATH = "/opt/mesa/lib/x86_64-linux-gnu:/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
 loader.env.LD_PRELOAD = "./egl_redirect.so"
