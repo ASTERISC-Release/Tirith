@@ -220,6 +220,14 @@ container> cd Tirith/gramine-tdx/CI-Examples/graphics/tf2
 container> ./setup-tf2.sh <STEAM_USERNAME>
 ```
 
+In a separate terminal shell on the host, please steam proxy:
+
+  ```
+  host> cd Tirith/scripts
+  host> ./host-steam-proxy.sh
+  ```
+  *This must be left running while Team Fortress 2 is open with Gramine.*
+
 With the desktop Steam client running, execute the game natively first (to verify): 
 
 ```bash
