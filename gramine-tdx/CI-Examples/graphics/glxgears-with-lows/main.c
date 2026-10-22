@@ -496,6 +496,11 @@ draw_frame(Display *dpy, Window win)
 
    draw_gears();
    glXSwapBuffers(dpy, win);
+   /* Uncapped rendering otherwise queues frames faster than the GPU retires
+    * them, so Mesa keeps creating new buffer objects instead of recycling
+    * busy ones. Under Gramine VM each new mapping permanently consumes GEM
+    * arena space, and at high resolutions QEMU aborts within seconds. */
+   glFinish();
 
    tSwap = current_time();
    if (tSwap0 >= 0.0)
