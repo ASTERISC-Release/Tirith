@@ -1,8 +1,5 @@
 #!/bin/bash -e
 
-# install podman (if needed)
-sudo pacman -S --needed podman podman-compose
-
 if [ "$1" == "down" ]; then
     echo "Container being stopped"
     podman-compose down

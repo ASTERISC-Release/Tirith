@@ -16,6 +16,7 @@ sudo apt-get install -y \
     libssl-dev libvorbis-dev libmbedtls-dev zlib1g-dev
 
 # Create a workspace directory
+mkdir -p /root/.config /root/.local/share
 mkdir -p ./stk-build && cd ./stk-build
 
 echo "--- Cloning Repositories (Code and Assets) ---"

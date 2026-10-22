@@ -25,6 +25,21 @@ popd
 # Patch Files
 cp ./patch_files/minetest.conf ./luanti-5.6.1/                          # General config settings
 
+# The manifest starts "minetest --go", which loads an existing world (minetest.conf selects
+# "world1"); a fresh install has none, so create it here instead of via the main menu.
+mkdir -p ./luanti-5.6.1/worlds/world1
+[ -f ./luanti-5.6.1/worlds/world1/world.mt ] || cat > ./luanti-5.6.1/worlds/world1/world.mt <<'WORLD'
+enable_damage = true
+creative_mode = false
+mod_storage_backend = sqlite3
+auth_backend = sqlite3
+player_backend = sqlite3
+backend = dummy
+gameid = devtest
+world_name = world1
+server_announce = false
+WORLD
+
 pushd luanti-5.6.1/
     patch --batch -p1 < ../patch_files/minetest-source-changes.patch
     cmake . -DRUN_IN_PLACE=TRUE -DCMAKE_BUILD_TYPE=Release

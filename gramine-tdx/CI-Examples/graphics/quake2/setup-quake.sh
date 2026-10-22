@@ -1,6 +1,6 @@
 echo "--------------------- Setting things up for ya --------------------"
 mkdir /root/.yq2
-git clone git@github.com:yquake2/yquake2.git ./quake2_bin
+git clone https://github.com/yquake2/yquake2.git ./quake2_bin
 sudo apt install build-essential \
     libgl1-mesa-dev libsdl2-dev libopenal-dev \
     libcurl4-openssl-dev
